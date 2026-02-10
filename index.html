@@ -1,498 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spyridon Feradouros — Portfolio</title>
-    <meta name="description" content="Portfolio of Spyridon Feradouros — Computer Science student, AI enthusiast, and software engineer.">
+    <meta name="description"
+        content="Portfolio of Spyridon Feradouros — Computer Science student at NKUA, turning ideas into AI tools that work in the real world.">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Spyridon Feradouros — Portfolio">
+    <meta property="og:description"
+        content="Computer Science student at NKUA — turning ideas into AI tools that work in the real world.">
+    <meta property="og:url" content="https://spferad.github.io">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Spyridon Feradouros — Portfolio">
+    <meta name="twitter:description"
+        content="Computer Science student at NKUA — turning ideas into AI tools that work in the real world.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <style>
-        /* ===== CSS Custom Properties ===== */
-        :root {
-            --bg-primary: #0a0a1a;
-            --bg-secondary: #10102a;
-            --bg-card: rgba(255, 255, 255, 0.04);
-            --border-card: rgba(255, 255, 255, 0.08);
-            --text-primary: #e8e8f0;
-            --text-secondary: #9898b0;
-            --text-muted: #6868a0;
-            --accent: #00d4ff;
-            --accent-2: #7b61ff;
-            --accent-gradient: linear-gradient(135deg, #00d4ff, #7b61ff);
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-heading: 'Space Grotesk', sans-serif;
-            --nav-height: 64px;
-        }
 
-        /* ===== Reset & Base ===== */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
-        body {
-            font-family: var(--font-body);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-        a { color: var(--accent); text-decoration: none; transition: color 0.3s; }
-        a:hover { color: #7b61ff; }
-        ::selection { background: rgba(0, 212, 255, 0.3); color: #fff; }
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
 
-        /* ===== Navigation ===== */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            height: var(--nav-height);
-            background: rgba(10, 10, 26, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 2rem;
-        }
-        .nav-inner {
-            max-width: 1100px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .nav-logo {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 1.2rem;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a {
-            color: var(--text-secondary);
-            font-size: 0.88rem;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            position: relative;
-            padding: 4px 0;
-            transition: color 0.3s;
-        }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px; left: 0;
-            width: 0; height: 2px;
-            background: var(--accent-gradient);
-            transition: width 0.3s;
-            border-radius: 1px;
-        }
-        .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
-        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 5px;
-        }
-        .hamburger span {
-            width: 24px; height: 2px;
-            background: var(--text-primary);
-            border-radius: 2px;
-            transition: all 0.3s;
-        }
 
-        /* ===== Hero Section ===== */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            overflow: hidden;
-        }
-        .hero canvas {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 0;
-        }
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 700px;
-        }
-        .hero-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            border: 1px solid var(--border-card);
-            border-radius: 100px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-        }
-        .hero-badge i { color: var(--accent); margin-right: 6px; }
-        .hero h1 {
-            font-family: var(--font-heading);
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-        }
-        .hero h1 .gradient-text {
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-subtitle {
-            font-size: 1.15rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            max-width: 520px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.7;
-        }
-        .hero-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-        .hero-links a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        .btn-primary {
-            background: var(--accent-gradient);
-            color: #0a0a1a !important;
-            -webkit-text-fill-color: #0a0a1a;
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 212, 255, 0.3); }
-        .btn-outline {
-            border: 1px solid var(--border-card);
-            color: var(--text-primary) !important;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-        }
-        .btn-outline:hover {
-            border-color: var(--accent);
-            background: rgba(0, 212, 255, 0.06);
-            transform: translateY(-2px);
-        }
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1;
-            animation: bounce 2s infinite;
-        }
-        .scroll-indicator i { font-size: 1.2rem; color: var(--text-muted); }
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(8px); }
-        }
-
-        /* ===== Sections (shared) ===== */
-        .section {
-            padding: 4rem 2rem;
-            max-width: 1100px;
-            margin: 0 auto 6rem;
-        }
-        .section-header {
-            text-align: center;
-            margin-bottom: 3.5rem;
-        }
-        .section-header h2 {
-            font-family: var(--font-heading);
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-        .section-header p {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-        .accent-line {
-            width: 48px; height: 3px;
-            background: var(--accent-gradient);
-            border-radius: 2px;
-            margin: 0 auto 1rem;
-        }
-
-        /* ===== Glassmorphism Card ===== */
-        .glass-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            border-radius: 16px;
-            padding: 2rem;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-        }
-        .glass-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(0, 212, 255, 0.2);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        /* ===== About ===== */
-        .about-card {
-            max-width: 750px;
-            margin: 0 auto;
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            line-height: 1.9;
-        }
-        .about-card .highlight {
-            color: var(--accent);
-            font-weight: 500;
-        }
-
-        /* ===== Timeline (Experience) ===== */
-        .timeline { position: relative; padding-left: 2rem; }
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0;
-            width: 2px; height: 100%;
-            background: linear-gradient(to bottom, var(--accent), var(--accent-2), transparent);
-            border-radius: 2px;
-        }
-        .timeline-item {
-            position: relative;
-            margin-bottom: 2.5rem;
-            padding-left: 2rem;
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -2rem; top: 8px;
-            width: 12px; height: 12px;
-            border-radius: 50%;
-            background: var(--accent);
-            border: 3px solid var(--bg-primary);
-            box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
-        }
-        .timeline-date {
-            display: inline-block;
-            padding: 3px 12px;
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 100px;
-            font-size: 0.78rem;
-            color: var(--accent);
-            font-weight: 500;
-            margin-bottom: 0.75rem;
-        }
-        .timeline-title {
-            font-family: var(--font-heading);
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-        .timeline-org {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-style: italic;
-            margin-bottom: 0.75rem;
-        }
-        .timeline-item ul {
-            color: var(--text-secondary);
-            padding-left: 1.2rem;
-            font-size: 0.92rem;
-        }
-        .timeline-item li { margin-bottom: 0.35rem; }
-        .timeline-item li::marker { color: var(--accent); }
-
-        /* ===== Projects Grid ===== */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-        }
-        .project-card .project-icon {
-            width: 48px; height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            margin-bottom: 1.2rem;
-        }
-        .project-card .project-icon.gold {
-            background: rgba(255, 193, 7, 0.12);
-            color: #ffc107;
-        }
-        .project-card .project-icon.purple {
-            background: rgba(123, 97, 255, 0.12);
-            color: #7b61ff;
-        }
-        .project-card h3 {
-            font-family: var(--font-heading);
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-        .project-card .project-date {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 0.75rem;
-        }
-        .project-card p {
-            color: var(--text-secondary);
-            font-size: 0.92rem;
-            line-height: 1.7;
-            margin-bottom: 1rem;
-        }
-        .project-card .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        .project-card .project-link i { font-size: 0.75rem; transition: transform 0.3s; }
-        .project-card .project-link:hover i { transform: translateX(4px); }
-
-        /* ===== Skills ===== */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        .skill-group h3 {
-            font-family: var(--font-heading);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .skill-group h3 i { color: var(--accent); font-size: 0.9rem; }
-        .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .skill-tag {
-            padding: 6px 14px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-card);
-            border-radius: 8px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            transition: all 0.3s;
-        }
-        .skill-tag:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            box-shadow: 0 0 16px rgba(0, 212, 255, 0.12);
-            transform: translateY(-2px);
-        }
-
-        /* ===== Languages ===== */
-        .languages-row {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .lang-card {
-            text-align: center;
-            padding: 1.5rem 2rem;
-            min-width: 160px;
-        }
-        .lang-card .lang-name {
-            font-family: var(--font-heading);
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-        .lang-card .lang-level {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        /* ===== Footer ===== */
-        footer {
-            border-top: 1px solid var(--glass-border);
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-        .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; }
-        .footer-links a {
-            width: 44px; height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            border: 1px solid var(--border-card);
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            transition: all 0.3s;
-        }
-        .footer-links a:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.15);
-        }
-        .footer-copy {
-            color: var(--text-muted);
-            font-size: 0.82rem;
-        }
-
-        /* ===== Scroll Animations ===== */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-        }
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ===== Responsive ===== */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: var(--nav-height);
-                left: 0; right: 0;
-                background: rgba(10, 10, 26, 0.95);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                align-items: center;
-                padding: 2rem 0;
-                gap: 1.5rem;
-                border-bottom: 1px solid var(--glass-border);
-            }
-            .nav-links.open { display: flex; }
-            .hamburger { display: flex; }
-            .section { padding: 4rem 1.25rem; }
-            .hero h1 { font-size: 2.2rem; }
-            .hero-subtitle { font-size: 1rem; }
-            .projects-grid { grid-template-columns: 1fr; }
-            .skills-grid { grid-template-columns: 1fr; }
-            .timeline { padding-left: 1.5rem; }
-            .timeline-item { padding-left: 1.2rem; }
-        }
-    </style>
 </head>
+
 <body>
 
     <!-- ===== Navigation ===== -->
@@ -502,9 +45,10 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="#about">About</a></li>
                 <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
+                <li><a href="#awards">Awards</a></li>
                 <li><a href="#skills">Skills</a></li>
-                <li><a href="#languages">Languages</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="Resume.pdf" target="_blank" rel="noopener">Resume</a></li>
             </ul>
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
@@ -516,13 +60,27 @@
     <section class="hero" id="hero">
         <canvas id="heroCanvas"></canvas>
         <div class="hero-content">
-            <div class="hero-badge"><i class="fas fa-circle" style="font-size:6px;vertical-align:middle;"></i> Open to opportunities</div>
+            <div class="hero-badge"><i class="fas fa-circle" style="font-size:6px;vertical-align:middle;"></i> Open to
+                opportunities</div>
             <h1>Hi, I'm <span class="gradient-text">Spyridon</span></h1>
-            <p class="hero-subtitle">Computer Science student at NKUA — passionate about AI, machine learning, and building software that makes a difference.</p>
-            <div class="hero-links">
-                <a href="mailto:spferad@gmail.com" class="btn-primary"><i class="fas fa-envelope"></i> Get in Touch</a>
-                <a href="https://github.com/spferad" target="_blank" rel="noopener" class="btn-outline"><i class="fab fa-github"></i> GitHub</a>
-                <a href="https://linkedin.com/in/spyros-feradouros-9389732b0" target="_blank" rel="noopener" class="btn-outline"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+            <p class="hero-subtitle">Computer Science student at NKUA — turning ideas into AI tools that work in the
+                real world.</p>
+            <div class="hero-links fade-in">
+                <a href="https://github.com/spferad" class="btn-outline" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="mailto:spferad@gmail.com" class="btn-primary">
+                    <i class="fas fa-envelope"></i> Get in Touch
+                </a>
+                <a href="https://linkedin.com/in/spyros-feradouros-9389732b0" class="btn-outline" target="_blank"
+                    rel="noopener">
+                    <i class="fab fa-linkedin-in"></i> LinkedIn
+                </a>
+            </div>
+            <div class="hero-links fade-in">
+                <a href="Resume.pdf" class="btn-outline" target="_blank" rel="noopener">
+                    <i class="fas fa-file-alt"></i> Resume
+                </a>
             </div>
         </div>
         <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
@@ -535,7 +93,15 @@
             <h2>About Me</h2>
         </div>
         <div class="glass-card about-card fade-in">
-            <p>Motivated <span class="highlight">Computer Science</span> student at the National and Kapodistrian University of Athens with a strong foundation in <span class="highlight">C, C++, AI, Machine Learning, Cloud Computing,</span> and <span class="highlight">Python</span>. I am eager to grow my skills through real-world projects and collaborative environments. Particularly interested in <span class="highlight">artificial intelligence</span> and its real-world applications.</p>
+            <p>I'm a <span class="highlight">Computer Science</span> student at the National and Kapodistrian University
+                of Athens. What drives me isn't the theory alone — it's seeing an idea become something <span
+                    class="highlight">real</span>. I'm drawn to <span class="highlight">artificial intelligence</span>
+                because, while it may be tech-based, it is <span class="highlight">business-driven</span> — and that's
+                where the impact lives.</p>
+            <p style="margin-top: 1rem;">My foundation spans <span class="highlight">systems programming, AI, cloud
+                    computing, and software engineering</span>. Whether it's a hackathon under time pressure or a
+                semester-long group project, I thrive when building under constraints with a team — and I'm always
+                looking for the next problem worth solving.</p>
         </div>
     </section>
 
@@ -548,46 +114,54 @@
         </div>
         <div class="timeline fade-in">
             <div class="timeline-item">
-                <span class="timeline-date">Oct 2024 — Feb 2025</span>
-                <div class="timeline-title">Undergraduate Teaching Assistant (Volunteer)</div>
-                <div class="timeline-org">Department of Informatics and Telecommunications, NKUA</div>
-                <ul>
-                    <li>Assisted first-year students in "Introduction to Programming" (Unix, C).</li>
-                    <li>Held office hours to help students understand core concepts.</li>
-                    <li>Collaborated with instructors to enhance course materials and lab exercises.</li>
-                </ul>
-            </div>
-            <div class="timeline-item">
                 <span class="timeline-date">Nov 2025</span>
                 <div class="timeline-title">ICTAI Volunteer</div>
                 <div class="timeline-org">International Conference on Tools with Artificial Intelligence</div>
                 <ul>
-                    <li>Contributed to initiatives promoting research and innovation in AI.</li>
+                    <li>Supported conference operations across registration, session moderation, and on-site logistics.
+                    </li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">May 2025</span>
+                <div class="timeline-title">Makeathon Participant — StyleEra</div>
+                <div class="timeline-org">48-hour Innovation Makeathon</div>
+                <ul>
+                    <li>Built a working prototype with a team under extreme time constraints.</li>
+                </ul>
+                <a href="https://github.com/KostasGeorgako/StyleEra" target="_blank" rel="noopener" class="project-link"
+                    style="margin-top: 0.5rem; display: inline-flex;">View on GitHub <i class="fas fa-arrow-right"
+                        style="margin-left: 6px;"></i></a>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">Oct 2024 — Feb 2025</span>
+                <div class="timeline-title">Undergraduate Teaching Assistant (Volunteer)</div>
+                <div class="timeline-org">Department of Informatics and Telecommunications, NKUA</div>
+                <ul>
+                    <li>Guided ~20 first-year students through "Introduction to Programming" (Unix, C).</li>
+                    <li>Ran help sessions focused on assignments and exam preparation.</li>
+                    <li>Collaborated with instructors to refine lab exercises and course materials.</li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- ===== Projects & Awards ===== -->
-    <section class="section" id="projects">
+    <!-- ===== Awards ===== -->
+    <section class="section" id="awards">
         <div class="section-header fade-in">
             <div class="accent-line"></div>
-            <h2>Projects &amp; Awards</h2>
-            <p>Things I've built and accomplished</p>
+            <h2>Awards</h2>
         </div>
-        <div class="projects-grid">
-            <div class="glass-card project-card fade-in">
-                <div class="project-icon gold"><i class="fas fa-trophy"></i></div>
-                <h3>AI Challenge Winner — Developer's Day</h3>
-                <div class="project-date">November 2025</div>
-                <p>Won first place by developing an innovative AI-based solution within limited time constraints. Designed and implemented a machine learning pipeline showcasing practical AI applications.</p>
-            </div>
-            <div class="glass-card project-card fade-in">
-                <div class="project-icon purple"><i class="fas fa-rocket"></i></div>
-                <h3>Makeathon Participant — StyleEra</h3>
-                <div class="project-date">May 2025</div>
-                <p>Collaborated in a team to develop an innovative tech solution within 48 hours.</p>
-                <a href="https://github.com/KostasGeorgako/StyleEra" target="_blank" rel="noopener" class="project-link">View on GitHub <i class="fas fa-arrow-right"></i></a>
+        <div class="award-showcase fade-in">
+            <div class="award-card">
+                <div class="award-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="award-badge">1st Place</div>
+                <h3>AI Challenge Winner</h3>
+                <div class="award-event">Developer's Day — November 2025</div>
+                <p>Won first place by building a sentiment analysis pipeline — classifying customer reviews from raw
+                    data using machine learning, trained and deployed within the competition's time constraints.</p>
             </div>
         </div>
     </section>
@@ -601,33 +175,21 @@
         </div>
         <div class="skills-grid">
             <div class="glass-card skill-group fade-in">
-                <h3><i class="fas fa-code"></i> Programming &amp; Core</h3>
+                <h3><i class="fas fa-code"></i> Languages</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">C / C++</span>
                     <span class="skill-tag">Python</span>
                     <span class="skill-tag">Java</span>
                     <span class="skill-tag">SQL</span>
-                    <span class="skill-tag">Software Engineering</span>
-                    <span class="skill-tag">Algorithms & Data Structures</span>
-                    <span class="skill-tag">Systems Programming</span>
-                    <span class="skill-tag">Database Design</span>
-                    <span class="skill-tag">SQL Query Optimization</span>
                 </div>
             </div>
             <div class="glass-card skill-group fade-in">
                 <h3><i class="fas fa-brain"></i> AI &amp; Cloud</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">Machine Learning</span>
-                    <span class="skill-tag">Neural Networks</span>
                     <span class="skill-tag">Deep Learning</span>
-                    <span class="skill-tag">TensorFlow</span>
-                    <span class="skill-tag">scikit-learn</span>
-                    <span class="skill-tag">PyTorch</span>
+                    <span class="skill-tag">Azure (Certified)</span>
                     <span class="skill-tag">Cognitive Services</span>
-                    <span class="skill-tag">Bot Services</span>
-                    <span class="skill-tag">Cloud Computing</span>
-                    <span class="skill-tag">Azure</span>
-                    <span class="skill-tag">Google Cloud</span>
                 </div>
             </div>
             <div class="glass-card skill-group fade-in">
@@ -635,32 +197,30 @@
                 <div class="skill-tags">
                     <span class="skill-tag">Git</span>
                     <span class="skill-tag">Linux / Unix</span>
-                    <span class="skill-tag">VS Code</span>
-                    <span class="skill-tag">Antigravity</span>
-                    <span class="skill-tag">GCC / GDB</span>
+                    <span class="skill-tag">Bash</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Jupyter / Colab</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== Languages ===== -->
-    <section class="section" id="languages">
+    <!-- ===== Contact ===== -->
+    <section class="section contact-section" id="contact">
         <div class="section-header fade-in">
             <div class="accent-line"></div>
-            <h2>Languages</h2>
+            <h2>Get in Touch</h2>
         </div>
-        <div class="languages-row">
-            <div class="glass-card lang-card fade-in">
-                <div class="lang-name">English</div>
-                <div class="lang-level">C2 — Proficient</div>
-            </div>
-            <div class="glass-card lang-card fade-in">
-                <div class="lang-name">German</div>
-                <div class="lang-level">B2 — Upper Intermediate</div>
-            </div>
-            <div class="glass-card lang-card fade-in">
-                <div class="lang-name">Greek</div>
-                <div class="lang-level">Native</div>
+        <div class="glass-card contact-card fade-in">
+            <p>I'm always open to discussing new opportunities, collaborations, or interesting problems worth solving.
+                Feel free to reach out.</p>
+            <div class="contact-links">
+                <a href="mailto:spferad@gmail.com" class="btn-outline"><i class="fas fa-envelope"></i>
+                    spferad@gmail.com</a>
+                <a href="https://linkedin.com/in/spyros-feradouros-9389732b0" target="_blank" rel="noopener"
+                    class="btn-outline"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                <a href="https://github.com/spferad" target="_blank" rel="noopener" class="btn-outline"><i
+                        class="fab fa-github"></i> GitHub</a>
             </div>
         </div>
     </section>
@@ -669,158 +229,18 @@
     <footer>
         <div class="footer-links">
             <a href="mailto:spferad@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
-            <a href="https://linkedin.com/in/spyros-feradouros-9389732b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://github.com/spferad" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/spyros-feradouros-9389732b0" target="_blank" rel="noopener"
+                aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/spferad" target="_blank" rel="noopener" aria-label="GitHub"><i
+                    class="fab fa-github"></i></a>
         </div>
         <p class="footer-copy">&copy; 2026 Spyridon Feradouros</p>
     </footer>
 
     <!-- ===== Scripts ===== -->
-    <script>
-        // ---------- Aurora Shader Background (Three.js) ----------
-        (function () {
-            const container = document.getElementById('heroCanvas').parentElement;
-            const heroCanvas = document.getElementById('heroCanvas');
-            // Remove the original 2D canvas — Three.js creates its own
-            heroCanvas.remove();
-
-            const scene = new THREE.Scene();
-            const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-            const renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(container.offsetWidth, container.offsetHeight);
-            renderer.domElement.style.position = 'absolute';
-            renderer.domElement.style.top = '0';
-            renderer.domElement.style.left = '0';
-            renderer.domElement.style.width = '100%';
-            renderer.domElement.style.height = '100%';
-            renderer.domElement.style.zIndex = '0';
-            container.insertBefore(renderer.domElement, container.firstChild);
-
-            const material = new THREE.ShaderMaterial({
-                uniforms: {
-                    iTime: { value: 0 },
-                    iResolution: { value: new THREE.Vector2(container.offsetWidth, container.offsetHeight) }
-                },
-                vertexShader: `
-                    void main() {
-                        gl_Position = vec4(position, 1.0);
-                    }
-                `,
-                fragmentShader: `
-                    uniform float iTime;
-                    uniform vec2 iResolution;
-
-                    #define NUM_OCTAVES 3
-
-                    float rand(vec2 n) {
-                        return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
-                    }
-
-                    float noise(vec2 p) {
-                        vec2 ip = floor(p);
-                        vec2 u = fract(p);
-                        u = u*u*(3.0-2.0*u);
-                        float res = mix(
-                            mix(rand(ip), rand(ip + vec2(1.0, 0.0)), u.x),
-                            mix(rand(ip + vec2(0.0, 1.0)), rand(ip + vec2(1.0, 1.0)), u.x), u.y);
-                        return res * res;
-                    }
-
-                    float fbm(vec2 x) {
-                        float v = 0.0;
-                        float a = 0.3;
-                        vec2 shift = vec2(100);
-                        mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
-                        for (int i = 0; i < NUM_OCTAVES; ++i) {
-                            v += a * noise(x);
-                            x = rot * x * 2.0 + shift;
-                            a *= 0.4;
-                        }
-                        return v;
-                    }
-
-                    void main() {
-                        vec2 shake = vec2(sin(iTime * 1.2) * 0.005, cos(iTime * 2.1) * 0.005);
-                        vec2 p = ((gl_FragCoord.xy + shake * iResolution.xy) - iResolution.xy * 0.5) / iResolution.y * mat2(6.0, -4.0, 4.0, 6.0);
-                        vec2 v;
-                        vec4 o = vec4(0.0);
-
-                        float f = 2.0 + fbm(p + vec2(iTime * 5.0, 0.0)) * 0.5;
-
-                        for (float i = 0.0; i < 35.0; i++) {
-                            v = p + cos(i * i + (iTime + p.x * 0.08) * 0.025 + i * vec2(13.0, 11.0)) * 3.5 + vec2(sin(iTime * 3.0 + i) * 0.003, cos(iTime * 3.5 - i) * 0.003);
-                            float tailNoise = fbm(v + vec2(iTime * 0.5, i)) * 0.3 * (1.0 - (i / 35.0));
-                            vec4 auroraColors = vec4(
-                                0.1 + 0.3 * sin(i * 0.2 + iTime * 0.4),
-                                0.3 + 0.5 * cos(i * 0.3 + iTime * 0.5),
-                                0.7 + 0.3 * sin(i * 0.4 + iTime * 0.3),
-                                1.0
-                            );
-                            vec4 currentContribution = auroraColors * exp(sin(i * i + iTime * 0.8)) / length(max(v, vec2(v.x * f * 0.015, v.y * 1.5)));
-                            float thinnessFactor = smoothstep(0.0, 1.0, i / 35.0) * 0.6;
-                            o += currentContribution * (1.0 + tailNoise * 0.8) * thinnessFactor;
-                        }
-
-                        o = tanh(pow(o / 100.0, vec4(1.6)));
-                        gl_FragColor = o * 1.5;
-                    }
-                `
-            });
-
-            const geometry = new THREE.PlaneGeometry(2, 2);
-            const mesh = new THREE.Mesh(geometry, material);
-            scene.add(mesh);
-
-            function animate() {
-                material.uniforms.iTime.value += 0.016;
-                renderer.render(scene, camera);
-                requestAnimationFrame(animate);
-            }
-            animate();
-
-            window.addEventListener('resize', () => {
-                renderer.setSize(container.offsetWidth, container.offsetHeight);
-                material.uniforms.iResolution.value.set(container.offsetWidth, container.offsetHeight);
-            });
-        })();
-
-        // ---------- Scroll Fade-In ----------
-        const faders = document.querySelectorAll('.fade-in');
-        const fadeObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    fadeObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.12 });
-        faders.forEach(el => fadeObserver.observe(el));
-
-        // ---------- Active Nav Highlighting ----------
-        const sections = document.querySelectorAll('.section');
-        const navLinks = document.querySelectorAll('.nav-links a');
-        const highlightObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    navLinks.forEach(link => {
-                        link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
-                    });
-                }
-            });
-        }, { rootMargin: '-40% 0px -55% 0px' });
-        sections.forEach(s => highlightObserver.observe(s));
-
-        // ---------- Mobile Hamburger ----------
-        const hamburger = document.getElementById('hamburger');
-        const navLinksEl = document.getElementById('navLinks');
-        hamburger.addEventListener('click', () => {
-            navLinksEl.classList.toggle('open');
-        });
-        navLinksEl.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => navLinksEl.classList.remove('open'));
-        });
-
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="main.js"></script>
 
 </body>
+
 </html>
