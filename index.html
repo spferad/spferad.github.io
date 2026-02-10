@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         /* ===== CSS Custom Properties ===== */
         :root {
@@ -31,13 +32,19 @@
 
         /* ===== Reset & Base ===== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
+        html {
+            scroll-padding-top: var(--nav-height);
+            overflow: hidden;
+            height: 100%;
+        }
         body {
             font-family: var(--font-body);
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.7;
             overflow-x: hidden;
+            overflow-y: hidden;
+            height: 100%;
         }
         a { color: var(--accent); text-decoration: none; transition: color 0.3s; }
         a:hover { color: #7b61ff; }
@@ -214,6 +221,10 @@
             padding: 6rem 2rem;
             max-width: 1100px;
             margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .section-header {
             text-align: center;
@@ -430,6 +441,11 @@
             border-top: 1px solid var(--glass-border);
             padding: 3rem 2rem;
             text-align: center;
+            min-height: 40vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; }
         .footer-links a {
@@ -608,16 +624,19 @@
                     <span class="skill-tag">SQL</span>
                     <span class="skill-tag">Algorithms & Data Structures</span>
                     <span class="skill-tag">Systems Programming</span>
+                    <span class="skill-tag">Databases</span>
                 </div>
             </div>
             <div class="glass-card skill-group fade-in">
                 <h3><i class="fas fa-brain"></i> AI &amp; Cloud</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">Machine Learning</span>
+                    <span class="skill-tag">Deep Learning</span>
                     <span class="skill-tag">TensorFlow</span>
                     <span class="skill-tag">scikit-learn</span>
                     <span class="skill-tag">Azure</span>
                     <span class="skill-tag">Google Cloud</span>
+                    <span class="skill-tag">PyTorch</span>
                 </div>
             </div>
             <div class="glass-card skill-group fade-in">
@@ -626,6 +645,7 @@
                     <span class="skill-tag">Git</span>
                     <span class="skill-tag">Linux / Unix</span>
                     <span class="skill-tag">VS Code</span>
+                    <span class="skill-tag">Antigravity</span>
                     <span class="skill-tag">GCC / GDB</span>
                 </div>
             </div>
@@ -640,15 +660,15 @@
         </div>
         <div class="languages-row">
             <div class="glass-card lang-card fade-in">
-                <div class="lang-name">🇬🇧 English</div>
+                <div class="lang-name">English</div>
                 <div class="lang-level">C2 — Proficient</div>
             </div>
             <div class="glass-card lang-card fade-in">
-                <div class="lang-name">🇩🇪 German</div>
+                <div class="lang-name">German</div>
                 <div class="lang-level">B2 — Upper Intermediate</div>
             </div>
             <div class="glass-card lang-card fade-in">
-                <div class="lang-name">🇬🇷 Greek</div>
+                <div class="lang-name">Greek</div>
                 <div class="lang-level">Native</div>
             </div>
         </div>
@@ -661,84 +681,116 @@
             <a href="https://linkedin.com/in/spyros-feradouros-9389732b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             <a href="https://github.com/spferad" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
         </div>
-        <p class="footer-copy">&copy; 2025 Spyridon Feradouros. Built with ☕ and code.</p>
+        <p class="footer-copy">&copy; 2026 Spyridon Feradouros</p>
     </footer>
 
     <!-- ===== Scripts ===== -->
     <script>
-        // ---------- Constellation Canvas ----------
+        // ---------- Aurora Shader Background (Three.js) ----------
         (function () {
-            const canvas = document.getElementById('heroCanvas');
-            const ctx = canvas.getContext('2d');
-            let width, height, particles, animationId;
-            const PARTICLE_COUNT = 80;
-            const MAX_DIST = 140;
+            const container = document.getElementById('heroCanvas').parentElement;
+            const heroCanvas = document.getElementById('heroCanvas');
+            // Remove the original 2D canvas — Three.js creates its own
+            heroCanvas.remove();
 
-            function resize() {
-                width = canvas.width = canvas.offsetWidth;
-                height = canvas.height = canvas.offsetHeight;
-            }
+            const scene = new THREE.Scene();
+            const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.offsetWidth, container.offsetHeight);
+            renderer.domElement.style.position = 'absolute';
+            renderer.domElement.style.top = '0';
+            renderer.domElement.style.left = '0';
+            renderer.domElement.style.width = '100%';
+            renderer.domElement.style.height = '100%';
+            renderer.domElement.style.zIndex = '0';
+            container.insertBefore(renderer.domElement, container.firstChild);
 
-            function createParticles() {
-                particles = [];
-                for (let i = 0; i < PARTICLE_COUNT; i++) {
-                    particles.push({
-                        x: Math.random() * width,
-                        y: Math.random() * height,
-                        vx: (Math.random() - 0.5) * 0.4,
-                        vy: (Math.random() - 0.5) * 0.4,
-                        r: Math.random() * 1.5 + 0.5,
-                    });
-                }
-            }
-
-            function draw() {
-                ctx.clearRect(0, 0, width, height);
-                // Draw connections
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < MAX_DIST) {
-                            const alpha = (1 - dist / MAX_DIST) * 0.15;
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`;
-                            ctx.lineWidth = 0.6;
-                            ctx.stroke();
-                        }
+            const material = new THREE.ShaderMaterial({
+                uniforms: {
+                    iTime: { value: 0 },
+                    iResolution: { value: new THREE.Vector2(container.offsetWidth, container.offsetHeight) }
+                },
+                vertexShader: `
+                    void main() {
+                        gl_Position = vec4(position, 1.0);
                     }
-                }
-                // Draw particles
-                for (const p of particles) {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(0, 212, 255, 0.4)';
-                    ctx.fill();
-                }
-            }
+                `,
+                fragmentShader: `
+                    uniform float iTime;
+                    uniform vec2 iResolution;
 
-            function update() {
-                for (const p of particles) {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    if (p.x < 0 || p.x > width) p.vx *= -1;
-                    if (p.y < 0 || p.y > height) p.vy *= -1;
-                }
-            }
+                    #define NUM_OCTAVES 3
 
-            function loop() {
-                update();
-                draw();
-                animationId = requestAnimationFrame(loop);
-            }
+                    float rand(vec2 n) {
+                        return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
+                    }
 
-            window.addEventListener('resize', () => { resize(); createParticles(); });
-            resize();
-            createParticles();
-            loop();
+                    float noise(vec2 p) {
+                        vec2 ip = floor(p);
+                        vec2 u = fract(p);
+                        u = u*u*(3.0-2.0*u);
+                        float res = mix(
+                            mix(rand(ip), rand(ip + vec2(1.0, 0.0)), u.x),
+                            mix(rand(ip + vec2(0.0, 1.0)), rand(ip + vec2(1.0, 1.0)), u.x), u.y);
+                        return res * res;
+                    }
+
+                    float fbm(vec2 x) {
+                        float v = 0.0;
+                        float a = 0.3;
+                        vec2 shift = vec2(100);
+                        mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
+                        for (int i = 0; i < NUM_OCTAVES; ++i) {
+                            v += a * noise(x);
+                            x = rot * x * 2.0 + shift;
+                            a *= 0.4;
+                        }
+                        return v;
+                    }
+
+                    void main() {
+                        vec2 shake = vec2(sin(iTime * 1.2) * 0.005, cos(iTime * 2.1) * 0.005);
+                        vec2 p = ((gl_FragCoord.xy + shake * iResolution.xy) - iResolution.xy * 0.5) / iResolution.y * mat2(6.0, -4.0, 4.0, 6.0);
+                        vec2 v;
+                        vec4 o = vec4(0.0);
+
+                        float f = 2.0 + fbm(p + vec2(iTime * 5.0, 0.0)) * 0.5;
+
+                        for (float i = 0.0; i < 35.0; i++) {
+                            v = p + cos(i * i + (iTime + p.x * 0.08) * 0.025 + i * vec2(13.0, 11.0)) * 3.5 + vec2(sin(iTime * 3.0 + i) * 0.003, cos(iTime * 3.5 - i) * 0.003);
+                            float tailNoise = fbm(v + vec2(iTime * 0.5, i)) * 0.3 * (1.0 - (i / 35.0));
+                            vec4 auroraColors = vec4(
+                                0.1 + 0.3 * sin(i * 0.2 + iTime * 0.4),
+                                0.3 + 0.5 * cos(i * 0.3 + iTime * 0.5),
+                                0.7 + 0.3 * sin(i * 0.4 + iTime * 0.3),
+                                1.0
+                            );
+                            vec4 currentContribution = auroraColors * exp(sin(i * i + iTime * 0.8)) / length(max(v, vec2(v.x * f * 0.015, v.y * 1.5)));
+                            float thinnessFactor = smoothstep(0.0, 1.0, i / 35.0) * 0.6;
+                            o += currentContribution * (1.0 + tailNoise * 0.8) * thinnessFactor;
+                        }
+
+                        o = tanh(pow(o / 100.0, vec4(1.6)));
+                        gl_FragColor = o * 1.5;
+                    }
+                `
+            });
+
+            const geometry = new THREE.PlaneGeometry(2, 2);
+            const mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            function animate() {
+                material.uniforms.iTime.value += 0.016;
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                renderer.setSize(container.offsetWidth, container.offsetHeight);
+                material.uniforms.iResolution.value.set(container.offsetWidth, container.offsetHeight);
+            });
         })();
 
         // ---------- Scroll Fade-In ----------
@@ -776,6 +828,71 @@
         navLinksEl.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => navLinksEl.classList.remove('open'));
         });
+
+        // ---------- Fullpage Scroll ----------
+        (function () {
+            const allSections = document.querySelectorAll('.hero, .section, footer');
+            let currentIndex = 0;
+            let isScrolling = false;
+            const COOLDOWN = 800; // ms between scroll jumps
+
+            function scrollToSection(index) {
+                if (index < 0 || index >= allSections.length) return;
+                isScrolling = true;
+                currentIndex = index;
+                allSections[index].scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => { isScrolling = false; }, COOLDOWN);
+            }
+
+            // Wheel event
+            window.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                if (isScrolling) return;
+                if (e.deltaY > 0) {
+                    scrollToSection(currentIndex + 1);
+                } else if (e.deltaY < 0) {
+                    scrollToSection(currentIndex - 1);
+                }
+            }, { passive: false });
+
+            // Keyboard arrows & space/pagedown
+            window.addEventListener('keydown', (e) => {
+                if (isScrolling) return;
+                if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+                    e.preventDefault();
+                    scrollToSection(currentIndex + 1);
+                } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    scrollToSection(currentIndex - 1);
+                }
+            });
+
+            // Touch swipe support
+            let touchStartY = 0;
+            window.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            window.addEventListener('touchend', (e) => {
+                if (isScrolling) return;
+                const diff = touchStartY - e.changedTouches[0].clientY;
+                if (Math.abs(diff) > 50) {
+                    scrollToSection(currentIndex + (diff > 0 ? 1 : -1));
+                }
+            }, { passive: true });
+
+            // Sync current index when nav links are clicked
+            document.querySelectorAll('.nav-links a, .scroll-indicator').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const href = link.getAttribute('href');
+                    if (!href || !href.startsWith('#')) return;
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (!target) return;
+                    const idx = Array.from(allSections).indexOf(target);
+                    if (idx !== -1) scrollToSection(idx);
+                });
+            });
+        })();
     </script>
 
 </body>
