@@ -149,3 +149,30 @@ hamburger.addEventListener('click', () => {
 navLinksEl.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => navLinksEl.classList.remove('open'));
 });
+
+// ---------- Interactive Skills ----------
+function updateSkill(element, info) {
+    const group = element.closest('.skill-group');
+    const infoField = group.querySelector('.skill-info');
+
+    // Toggle active state
+    const isActive = element.classList.contains('active');
+
+    // Reset all tags in this group
+    group.querySelectorAll('.skill-tag').forEach(tag => tag.classList.remove('active'));
+
+    if (isActive) {
+        // If clicking same tag, hide info
+        infoField.classList.remove('visible');
+    } else {
+        // Set new active tag
+        element.classList.add('active');
+
+        // Update and show info
+        infoField.classList.remove('visible');
+        setTimeout(() => {
+            infoField.innerText = info;
+            infoField.classList.add('visible');
+        }, 150);
+    }
+}

@@ -478,6 +478,11 @@ a:hover {
     margin-bottom: 1rem;
 }
 
+.award-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255, 193, 7, 0.3);
+}
+
 .award-card h3 {
     font-family: var(--font-heading);
     font-size: 1.5rem;
@@ -535,13 +540,33 @@ a:hover {
     font-size: 0.85rem;
     color: var(--text-secondary);
     transition: all 0.3s;
+    cursor: pointer;
 }
 
-.skill-tag:hover {
+.skill-tag:hover,
+.skill-tag.active {
     border-color: var(--accent);
     color: var(--accent);
     box-shadow: 0 0 16px rgba(0, 212, 255, 0.12);
     transform: translateY(-2px);
+}
+
+.skill-tag.active {
+    background: rgba(0, 212, 255, 0.08);
+}
+
+.skill-info {
+    margin-top: 1.25rem;
+    font-size: 0.88rem;
+    color: var(--accent);
+    font-style: italic;
+    min-height: 1.4rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.skill-info.visible {
+    opacity: 1;
 }
 
 /* ===== Contact ===== */
