@@ -115,7 +115,7 @@
 })();
 
 // ---------- Scroll Fade-In ----------
-const faders = document.querySelectorAll('.fade-in');
+const faders = document.querySelectorAll('.fade-in:not(.stagger-children .fade-in)');
 const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -125,6 +125,23 @@ const fadeObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.12 });
 faders.forEach(el => fadeObserver.observe(el));
+
+// ---------- Staggered Fade-In ----------
+const staggerContainers = document.querySelectorAll('.stagger-children');
+const staggerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const children = entry.target.querySelectorAll('.fade-in');
+            children.forEach((child, i) => {
+                child.style.transitionDelay = `${i * 120}ms`;
+                // Small timeout to ensure the delay is applied before triggering
+                requestAnimationFrame(() => child.classList.add('visible'));
+            });
+            staggerObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+staggerContainers.forEach(el => staggerObserver.observe(el));
 
 // ---------- Active Nav Highlighting ----------
 const sections = document.querySelectorAll('.section');
@@ -150,6 +167,99 @@ navLinksEl.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => navLinksEl.classList.remove('open'));
 });
 
+// ---------- Hero Text Reveal ----------
+(function () {
+    const h1 = document.querySelector('.hero h1');
+    if (!h1) return;
+    const html = h1.innerHTML;
+    
+    // Parse the HTML, wrapping text characters in spans while preserving tags
+    let letterIndex = 0;
+    const baseDelay = 0.3; // seconds — wait for badge to appear first
+    const perLetter = 0.04; // seconds per letter
+    
+    let newHTML = '';
+    let insideTag = false;
+    let insideGradient = false;
+    
+    for (let i = 0; i < html.length; i++) {
+        if (html[i] === '<') {
+            insideTag = true;
+            if (html.substring(i).startsWith('<span class="gradient-text">')) {
+                insideGradient = true;
+            }
+            if (html.substring(i).startsWith('</span>')) {
+                insideGradient = false;
+            }
+            newHTML += html[i];
+        } else if (html[i] === '>') {
+            insideTag = false;
+            newHTML += html[i];
+        } else if (insideTag) {
+            newHTML += html[i];
+        } else if (html[i] === ' ') {
+            newHTML += '<span class="letter-space"></span>';
+        } else {
+            const delay = baseDelay + letterIndex * perLetter;
+            newHTML += `<span class="letter" style="animation-delay:${delay.toFixed(2)}s">${html[i]}</span>`;
+            letterIndex++;
+        }
+    }
+    
+    h1.innerHTML = newHTML;
+})();
+
+// ---------- Hero Parallax ----------
+(function () {
+    const hero = document.querySelector('.hero');
+    const heroContent = document.querySelector('.hero-content');
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    if (!hero || !heroContent) return;
+    
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                const scrollY = window.scrollY;
+                const heroH = hero.offsetHeight;
+                if (scrollY < heroH) {
+                    const progress = scrollY / heroH;
+                    heroContent.style.transform = `translateY(${scrollY * 0.3}px)`;
+                    heroContent.style.opacity = 1 - progress * 1.2;
+                    if (scrollIndicator) {
+                        scrollIndicator.style.opacity = 1 - progress * 3;
+                    }
+                }
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+})();
+
+// ---------- Card Cursor Glow ----------
+document.querySelectorAll('.glass-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+    });
+});
+
+// ---------- Navbar Scroll Effect ----------
+(function () {
+    const navbar = document.getElementById('navbar');
+    if (!navbar) return;
+    
+    let lastScrolled = false;
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY > 80;
+        if (scrolled !== lastScrolled) {
+            navbar.classList.toggle('navbar--scrolled', scrolled);
+            lastScrolled = scrolled;
+        }
+    });
+})();
 // ---------- Interactive Skills ----------
 function updateSkill(element, info) {
     const group = element.closest('.skill-group');
