@@ -569,7 +569,7 @@ a:hover {
 .award-card {
   position: relative;
   text-align: center;
-  padding: 3rem 2.5rem;
+  padding: 2rem 2rem;
   border-radius: 20px;
   background: var(--bg-card);
   border: 2px solid transparent;
