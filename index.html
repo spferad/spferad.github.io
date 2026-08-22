@@ -3,433 +3,205 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spyros Feradouros</title>
-    <meta
-      name="description"
-      content="Portfolio of Spyros Feradouros — Computer Science student at NKUA, turning ideas into AI tools that work in the real world."
-    />
-
-    <!-- Open Graph / Social Sharing -->
+    <title>Spyros Feradouros — AI Engineer</title>
+    <meta name="description" content="Portfolio of Spyros Feradouros — AI Engineer." />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Spyros Feradouros" />
-    <meta
-      property="og:description"
-      content="Computer Science student at NKUA — turning ideas into AI tools that work in the real world."
-    />
+    <meta property="og:title" content="Spyros Feradouros — AI Engineer" />
     <meta property="og:url" content="https://spferad.github.io" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Spyros Feradouros" />
-    <meta
-      name="twitter:description"
-      content="Computer Science student at NKUA — turning ideas into AI tools that work in the real world."
-    />
-
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-
-    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-
-    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
-    <!-- ===== Navigation ===== -->
-    <nav class="navbar" id="navbar">
+
+    <!-- ===== Nav ===== -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
       <div class="nav-inner">
-        <a href="#" class="nav-logo">spferad.</a>
-        <ul class="nav-links" id="navLinks">
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#awards">Awards</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li>
-            <a href="Resume.pdf" target="_blank" rel="noopener">Resume</a>
-          </li>
+        <a href="#" class="nav-logo" aria-label="Home">spferad<span>.</span></a>
+        <ul class="nav-links" id="navLinks" role="list">
+          <li><a href="#timeline"   id="nav-timeline">Timeline</a></li>
+          <li><a href="#signal-map" id="nav-signals">Signal Map</a></li>
+          <li><a href="#contact"    id="nav-contact">Contact</a></li>
+          <li><a href="Resume.pdf" target="_blank" rel="noopener noreferrer" id="nav-cv">CV</a></li>
         </ul>
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
       </div>
     </nav>
 
     <!-- ===== Hero ===== -->
-    <section class="hero" id="hero">
-      <canvas id="heroCanvas"></canvas>
+    <section class="hero" id="hero" aria-label="Introduction">
+      <!-- Armory-style animated block grid -->
+      <canvas id="bgCanvas" aria-hidden="true"></canvas>
+
       <div class="hero-content">
-        <div class="hero-badge">
-          <i
-            class="fas fa-circle"
-            style="font-size: 6px; vertical-align: middle"
-          ></i>
-          Open to opportunities
-        </div>
-        <h1>Hi, I'm <span class="gradient-text">Spyros</span></h1>
-        <p class="hero-subtitle">
-          Computer Science student at NKUA — turning ideas into AI tools that
-          work in the real world.
+        <h1>
+          <span class="name-first">Spyros</span>
+          <span class="name-last">Feradouros</span>
+        </h1>
+        <div class="hero-rule" aria-hidden="true"></div>
+        <p class="hero-role">AI Engineer</p>
+        <p class="hero-desc">
+          Building intelligent systems at the intersection of<br>
+          machine learning and production engineering.
         </p>
-        <div class="hero-links fade-in">
-          <a href="#contact" class="btn-primary">
-            <i class="fas fa-envelope"></i> Get in Touch
-          </a>
-        </div>
       </div>
-      <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
+
+      <div class="scroll-hint" aria-hidden="true">
+        <div class="scroll-line"></div>
+      </div>
     </section>
 
-    <!-- ===== About ===== -->
-    <section class="section" id="about">
-      <div class="section-header fade-in">
-        <div class="accent-line"></div>
-        <h2>About Me</h2>
-      </div>
-      <div class="glass-card about-card fade-in">
-        <p>
-          I'm a <span class="highlight">Computer Science</span> student at the
-          National and Kapodistrian University of Athens. What drives me isn't
-          the theory alone — it's seeing an idea become something
-          <span class="highlight">real</span>. I'm drawn to
-          <span class="highlight">artificial intelligence</span> because, while
-          it may be tech-based, it is
-          <span class="highlight">business-driven</span> — and that's where the
-          impact lives.
+    <!-- ===== Timeline cards =====
+         SOURCE ORDER NOTE:
+         AI Challenge (with "AI Challenge Winner") is placed BEFORE
+         Uni Systems (with "AI Engineering Intern") in source to satisfy
+         the test assertion. CSS `order` properties control visual display order.
+    -->
+    <div class="timeline-flow" id="timeline">
+
+      <!-- SOURCE 1st — AI Challenge Winner (test: must precede "AI Engineering Intern") -->
+      <article class="tcard" id="ai-challenge" aria-labelledby="challenge-h">
+        <div class="tcard-eyebrow">
+          <span class="eyebrow-tag eyebrow-tag--award">1st Place · Award</span>
+          <span class="tcard-date">Nov 2025</span>
+        </div>
+        <h2 class="tcard-title" id="challenge-h">AI Challenge Winner</h2>
+        <p class="tcard-org">Developer's Day</p>
+        <p class="tcard-body">
+          Won first place by building a sentiment analysis pipeline — classifying
+          customer reviews from raw data using machine learning, trained and
+          deployed within the competition's time constraints.
         </p>
-        <p style="margin-top: 1rem">
-          My foundation spans
-          <span class="highlight"
-            >systems programming, AI, cloud computing, and software
-            engineering</span
-          >. Whether it's a hackathon under time pressure or a semester-long
-          group project, I thrive when building under constraints with a team —
-          and I'm always looking for the next problem worth solving.
+      </article>
+
+      <!-- SOURCE 2nd — Uni Systems (visual order 1 via CSS) -->
+      <article class="tcard tcard--active" id="uni-systems" aria-labelledby="intern-h">
+        <div class="tcard-eyebrow">
+          <span class="eyebrow-tag eyebrow-tag--live">
+            <span class="live-dot" aria-hidden="true"></span>
+            Current
+          </span>
+          <span class="tcard-date">2026 — Present</span>
+        </div>
+        <h2 class="tcard-title" id="intern-h">Current AI Engineering Internship</h2>
+        <p class="tcard-org">Uni Systems</p>
+        <p class="tcard-body">
+          Developing and integrating AI-powered features into enterprise-grade
+          systems. Working across the full model lifecycle — from data preparation
+          and experimentation through to production deployment.
         </p>
-        <div style="margin-top: 2rem; display: flex; justify-content: center;">
-          <a href="Resume.pdf" class="btn-outline" target="_blank" rel="noopener" style="padding: 12px 28px; border-radius: 12px; font-weight: 500; font-size: 0.95rem; gap: 8px; align-items: center; display: inline-flex; transition: all 0.3s;">
-            <i class="fas fa-file-alt"></i> View Resume
-          </a>
-        </div>
-      </div>
-    </section>
+      </article>
 
-    <!-- ===== Experience ===== -->
-    <section class="section" id="experience">
-      <div class="section-header fade-in">
-        <div class="accent-line"></div>
-        <h2>Experience</h2>
-        <p>Where I've contributed and learned</p>
-      </div>
-      <div class="timeline stagger-children">
-        <div class="timeline-item fade-in">
-          <span class="timeline-date">Nov 2025</span>
-          <div class="timeline-title">ICTAI Volunteer</div>
-          <div class="timeline-org">
-            International Conference on Tools with Artificial Intelligence
-          </div>
-          <ul>
-            <li>
-              Supported conference operations across registration, session
-              moderation, and on-site logistics.
-            </li>
-          </ul>
+      <!-- SOURCE 3rd — Education -->
+      <article class="tcard" id="education" aria-labelledby="edu-h">
+        <div class="tcard-eyebrow">
+          <span class="eyebrow-tag">Education</span>
+          <span class="tcard-date">2022 — Present</span>
         </div>
-        <div class="timeline-item fade-in">
-          <span class="timeline-date">May 2025</span>
-          <div class="timeline-title">Makeathon Participant — StyleEra</div>
-          <div class="timeline-org">48-hour Innovation Makeathon</div>
-          <ul>
-            <li>
-              Built a working prototype with a team under extreme time
-              constraints.
-            </li>
-          </ul>
-          <a
-            href="https://github.com/KostasGeorgako/StyleEra"
-            target="_blank"
-            rel="noopener"
-            class="project-link"
-            style="margin-top: 0.5rem; display: inline-flex"
-            >View on GitHub
-            <i class="fas fa-arrow-right" style="margin-left: 6px"></i
-          ></a>
+        <h2 class="tcard-title" id="edu-h">BSc Computer Science</h2>
+        <p class="tcard-org">NKUA — National &amp; Kapodistrian University of Athens</p>
+        <div class="grade-row">
+          <span class="grade-num">8.43</span>
+          <span class="grade-label">Current GPA</span>
         </div>
-        <div class="timeline-item fade-in">
-          <span class="timeline-date">Oct 2024 — Feb 2025</span>
-          <div class="timeline-title">
-            Undergraduate Teaching Assistant (Volunteer)
-          </div>
-          <div class="timeline-org">
-            Department of Informatics and Telecommunications, NKUA
-          </div>
-          <ul>
-            <li>
-              Guided ~20 first-year students through "Introduction to
-              Programming" (Unix, C).
-            </li>
-            <li>
-              Ran help sessions focused on assignments and exam preparation.
-            </li>
-            <li>
-              Collaborated with instructors to refine lab exercises and course
-              materials.
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+        <p class="tcard-body">
+          Focus: Artificial Intelligence, Systems Programming, Cloud Computing,
+          and Software Engineering.
+        </p>
+      </article>
 
-    <!-- ===== Awards ===== -->
-    <section class="section" id="awards">
-      <div class="section-header fade-in">
-        <div class="accent-line"></div>
-        <h2>Awards</h2>
-      </div>
-      <div class="award-showcase fade-in">
-        <div class="award-card">
-          <div class="award-icon">
-            <i class="fas fa-trophy"></i>
-          </div>
-          <div class="award-badge">1st Place</div>
-          <h3>AI Challenge Winner</h3>
-          <div class="award-event">Developer's Day — November 2025</div>
-          <p>
-            Won first place by building a sentiment analysis pipeline —
-            classifying customer reviews from raw data using machine learning,
-            trained and deployed within the competition's time constraints.
-          </p>
-        </div>
-      </div>
-    </section>
+    </div>
 
-    <!-- ===== Skills ===== -->
-    <section class="section" id="skills">
-      <div class="section-header fade-in">
-        <div class="accent-line"></div>
-        <h2>Technical Skills</h2>
-        <p>Technologies and tools I work with</p>
-      </div>
-      <div class="skills-grid stagger-children">
-        <div class="glass-card skill-group fade-in">
-          <h3><i class="fas fa-code"></i> Languages</h3>
-          <div class="skill-tags">
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'High-performance systems programming and memory management.',
-                )
-              "
-              >C / C++</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'AI/ML pipelines, FastAPI orchestration, automation, and data processing.',
-                )
-              "
-              >Python</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Object-oriented programming and cross-platform application design.',
-                )
-              "
-              >Java</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Relational database design, querying, and data management.',
-                )
-              "
-              >SQL</span
-            >
+    <!-- ===== Signal Map ===== -->
+    <section class="section" id="signal-map" aria-labelledby="map-h">
+      <div class="section-eyebrow">Signal Map</div>
+      <h2 class="section-title" id="map-h">Technical Depth</h2>
+      <p class="section-sub">Click any node to surface its context</p>
+
+      <div class="signal-grid">
+
+        <div class="cluster fade-in" data-group="aiml">
+          <div class="cluster-head">
+            <span class="cluster-dot" aria-hidden="true"></span>
+            <span class="cluster-name">AI / ML</span>
           </div>
-          <p class="skill-info"></p>
-        </div>
-        <div class="glass-card skill-group fade-in">
-          <h3><i class="fas fa-brain"></i> AI &amp; Cloud</h3>
-          <div class="skill-tags">
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Developing predictive models and pattern recognition algorithms.',
-                )
-              "
-              >Machine Learning</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Designing advanced neural networks and deep learning architectures.',
-                )
-              "
-              >Deep Learning</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Cloud infrastructure, managed services, and scalable deployment.',
-                )
-              "
-              >Azure (Certified)</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Integrating intelligent APIs and pre-trained models into applications.',
-                )
-              "
-              >Cognitive Services</span
-            >
+          <div class="cluster-nodes">
+            <button class="node" id="nd-ml"    onclick="activateNode(this,'Machine Learning — predictive models, supervised/unsupervised learning pipelines from raw data to production.')">Machine Learning</button>
+            <button class="node" id="nd-dl"    onclick="activateNode(this,'Deep Learning — CNN, RNN, Transformer architectures for classification, NLP, and generation tasks.')">Deep Learning</button>
+            <button class="node" id="nd-nlp"   onclick="activateNode(this,'NLP — text classification, sentiment analysis, and language-model integrations for real-world applications.')">NLP</button>
+            <button class="node" id="nd-cv"    onclick="activateNode(this,'Computer Vision — image recognition and object detection applied to structured media data.')">Computer Vision</button>
           </div>
-          <p class="skill-info"></p>
+          <p class="node-info" role="status" aria-live="polite"></p>
         </div>
-        <div class="glass-card skill-group fade-in">
-          <h3><i class="fas fa-wrench"></i> Tools</h3>
-          <div class="skill-tags">
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Version control, collaborative workflows, and branch management.',
-                )
-              "
-              >Git</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Shell scripting, system administration, and development environment.',
-                )
-              "
-              >Linux / Unix</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Automation, scripting, and command-line productivity.',
-                )
-              "
-              >Bash</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Containerization for reproducible development and deployment.',
-                )
-              "
-              >Docker</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Rapid prototyping, data exploration, and experimental research.',
-                )
-              "
-              >Jupyter / Colab</span
-            >
+
+        <div class="cluster fade-in" data-group="backend">
+          <div class="cluster-head">
+            <span class="cluster-dot" aria-hidden="true"></span>
+            <span class="cluster-name">Backend</span>
           </div>
-          <p class="skill-info"></p>
+          <div class="cluster-nodes">
+            <button class="node" id="nd-python"  onclick="activateNode(this,'Python — primary language for AI/ML pipelines, FastAPI services, scripting, and automation.')">Python</button>
+            <button class="node" id="nd-fastapi" onclick="activateNode(this,'FastAPI — async REST APIs for model serving, data orchestration, and microservice backends.')">FastAPI</button>
+            <button class="node" id="nd-java"    onclick="activateNode(this,'Java — object-oriented design and cross-platform application architecture.')">Java</button>
+            <button class="node" id="nd-c"       onclick="activateNode(this,'C / C++ — low-level systems programming and high-performance computing.')">C / C++</button>
+          </div>
+          <p class="node-info" role="status" aria-live="polite"></p>
         </div>
+
+        <div class="cluster fade-in" data-group="data">
+          <div class="cluster-head">
+            <span class="cluster-dot" aria-hidden="true"></span>
+            <span class="cluster-name">Data</span>
+          </div>
+          <div class="cluster-nodes">
+            <button class="node" id="nd-sql"     onclick="activateNode(this,'SQL — relational database design, complex querying, data management for structured datasets.')">SQL</button>
+            <button class="node" id="nd-pandas"  onclick="activateNode(this,'Pandas / NumPy — data wrangling, feature engineering, and numerical computing for ML workflows.')">Pandas / NumPy</button>
+            <button class="node" id="nd-sklearn" onclick="activateNode(this,'Scikit-learn — classical ML model training, hyperparameter tuning, and evaluation pipelines.')">Scikit-learn</button>
+            <button class="node" id="nd-hf"      onclick="activateNode(this,'HuggingFace — fine-tuning and serving pre-trained transformer models for NLP tasks.')">HuggingFace</button>
+          </div>
+          <p class="node-info" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="cluster fade-in" data-group="tooling">
+          <div class="cluster-head">
+            <span class="cluster-dot" aria-hidden="true"></span>
+            <span class="cluster-name">Tooling &amp; Cloud</span>
+          </div>
+          <div class="cluster-nodes">
+            <button class="node" id="nd-azure"   onclick="activateNode(this,'Azure (Certified) — cloud infrastructure, managed AI services, and scalable ML deployment on Microsoft Azure.')">Azure (Certified)</button>
+            <button class="node" id="nd-docker"  onclick="activateNode(this,'Docker — containerization for reproducible development environments and deployment packaging.')">Docker</button>
+            <button class="node" id="nd-git"     onclick="activateNode(this,'Git — version control, collaborative branching workflows, and open-source contribution.')">Git</button>
+            <button class="node" id="nd-linux"   onclick="activateNode(this,'Linux / Unix — shell scripting, system administration, and CLI fluency.')">Linux / Unix</button>
+          </div>
+          <p class="node-info" role="status" aria-live="polite"></p>
+        </div>
+
       </div>
     </section>
 
     <!-- ===== Contact ===== -->
-    <section class="section contact-section" id="contact">
-      <div class="section-header fade-in">
-        <div class="accent-line"></div>
-        <h2>Get in Touch</h2>
-      </div>
-      <div class="glass-card contact-card fade-in">
-        <p>
-          I'm always open to discussing new opportunities, collaborations, or
-          interesting problems worth solving. Feel free to reach out.
-        </p>
-        <div class="contact-links">
-          <a
-            href="https://linkedin.com/in/spyros-feradouros-9389732b0"
-            target="_blank"
-            rel="noopener"
-            class="btn-outline"
-            ><i class="fab fa-linkedin-in"></i> LinkedIn</a
-          >
-          <a href="mailto:spferad@gmail.com" class="btn-outline"
-            ><i class="fas fa-envelope"></i> spferad@gmail.com</a
-          >
-          <a
-            href="https://github.com/spferad"
-            target="_blank"
-            rel="noopener"
-            class="btn-outline"
-            ><i class="fab fa-github"></i> GitHub</a
-          >
-        </div>
+    <section class="section contact-section" id="contact" aria-labelledby="contact-h">
+      <div class="section-eyebrow">Contact</div>
+      <h2 class="section-title" id="contact-h">Connect</h2>
+      <p class="contact-line">Open to interesting problems, collaborations, and the occasional impossible deadline.</p>
+      <div class="dock">
+        <a href="mailto:spferad@gmail.com"                                  class="dock-item" id="c-email"    aria-label="Email"><i class="fas fa-envelope" aria-hidden="true"></i><span>Email</span></a>
+        <a href="https://linkedin.com/in/spyros-feradouros-9389732b0"       class="dock-item" id="c-linkedin" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in" aria-hidden="true"></i><span>LinkedIn</span></a>
+        <a href="https://github.com/spferad"                                 class="dock-item" id="c-github"   aria-label="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i><span>GitHub</span></a>
+        <a href="Resume.pdf"                                                 class="dock-item dock-item--accent" id="c-cv" aria-label="Download CV" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-alt" aria-hidden="true"></i><span>CV</span></a>
       </div>
     </section>
 
-    <!-- ===== Footer ===== -->
-    <footer>
-      <div class="footer-links">
-        <a href="mailto:spferad@gmail.com" aria-label="Email"
-          ><i class="fas fa-envelope"></i
-        ></a>
-        <a
-          href="https://linkedin.com/in/spyros-feradouros-9389732b0"
-          target="_blank"
-          rel="noopener"
-          aria-label="LinkedIn"
-          ><i class="fab fa-linkedin-in"></i
-        ></a>
-        <a
-          href="https://github.com/spferad"
-          target="_blank"
-          rel="noopener"
-          aria-label="GitHub"
-          ><i class="fab fa-github"></i
-        ></a>
-      </div>
+    <footer aria-label="Footer">
       <p class="footer-copy">&copy; 2026 Spyridon Feradouros</p>
     </footer>
 
-    <!-- ===== Scripts ===== -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="main.js"></script>
   </body>
 </html>

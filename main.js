@@ -1,288 +1,322 @@
-// ---------- Aurora Shader Background (Three.js) ----------
+/* ============================================================
+   Neural Console — main.js
+   ============================================================ */
+
+// ---------- Reduced motion (JS-level) ----------
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
+// ============================================================
+// HERO CANVAS — Armory-style cursor-reactive grid
+//
+// Performance strategy:
+//  • Grid lines pre-rendered to an offscreen canvas (drawn ONCE on resize)
+//  • Each frame: one drawImage() blit + sparse fillRect for lit cells
+//  • Zero ctx.filter, zero ctx.stroke() per frame, zero gradient per frame
+//  • requestAnimationFrame + manual 24fps cap = minimal CPU
+//  • Mouse position activates nearby cells (Armory's signature effect)
+// ============================================================
 (function () {
-    const container = document.getElementById('heroCanvas').parentElement;
-    const heroCanvas = document.getElementById('heroCanvas');
-    // Remove the original 2D canvas — Three.js creates its own
-    heroCanvas.remove();
+  const canvas = document.getElementById('bgCanvas');
+  if (!canvas) return;
+  const ctx    = canvas.getContext('2d', { alpha: false });
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const renderer = new THREE.WebGLRenderer({ antialias: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-    renderer.setSize(container.offsetWidth, container.offsetHeight);
-    renderer.domElement.style.position = 'absolute';
-    renderer.domElement.style.top = '0';
-    renderer.domElement.style.left = '0';
-    renderer.domElement.style.width = '100%';
-    renderer.domElement.style.height = '100%';
-    renderer.domElement.style.zIndex = '0';
-    container.insertBefore(renderer.domElement, container.firstChild);
+  const CELL    = 32;           // grid cell size in px
+  const BG      = '#080808';
+  const OR      = [226, 103, 46]; // orange rgb
+  const DECAY   = 0.90;         // per-frame alpha multiplier
+  const FRAME_MS = 1000 / 24;   // target: 24 fps cap
 
-    const material = new THREE.ShaderMaterial({
-        uniforms: {
-            iTime: { value: 0 },
-            iResolution: { value: new THREE.Vector2(container.offsetWidth, container.offsetHeight) }
-        },
-        vertexShader: `
-            void main() {
-                gl_Position = vec4(position, 1.0);
-            }
-        `,
-        fragmentShader: `
-            uniform float iTime;
-            uniform vec2 iResolution;
+  let cols, rows, grid;         // grid[r][c] = current alpha 0–1
+  let offscreen;                 // pre-rendered grid lines
+  let mouse = { x: -9999, y: -9999 };
+  let last   = 0;
 
-            #define NUM_OCTAVES 3
+  // ---------- build offscreen grid (called once on resize) ----------
+  function buildOffscreen() {
+    offscreen        = document.createElement('canvas');
+    offscreen.width  = canvas.width;
+    offscreen.height = canvas.height;
+    const og = offscreen.getContext('2d');
 
-            float rand(vec2 n) {
-                return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
-            }
+    // Fill background
+    og.fillStyle = BG;
+    og.fillRect(0, 0, offscreen.width, offscreen.height);
 
-            float noise(vec2 p) {
-                vec2 ip = floor(p);
-                vec2 u = fract(p);
-                u = u*u*(3.0-2.0*u);
-                float res = mix(
-                    mix(rand(ip), rand(ip + vec2(1.0, 0.0)), u.x),
-                    mix(rand(ip + vec2(0.0, 1.0)), rand(ip + vec2(1.0, 1.0)), u.x), u.y);
-                return res * res;
-            }
-
-            float fbm(vec2 x) {
-                float v = 0.0;
-                float a = 0.3;
-                vec2 shift = vec2(100);
-                mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
-                for (int i = 0; i < NUM_OCTAVES; ++i) {
-                    v += a * noise(x);
-                    x = rot * x * 2.0 + shift;
-                    a *= 0.4;
-                }
-                return v;
-            }
-
-            void main() {
-                vec2 shake = vec2(sin(iTime * 1.2) * 0.005, cos(iTime * 2.1) * 0.005);
-                vec2 p = ((gl_FragCoord.xy + shake * iResolution.xy) - iResolution.xy * 0.5) / iResolution.y * mat2(6.0, -4.0, 4.0, 6.0);
-                vec2 v;
-                vec4 o = vec4(0.0);
-
-                float f = 2.0 + fbm(p + vec2(iTime * 5.0, 0.0)) * 0.5;
-
-                for (float i = 0.0; i < 20.0; i++) {
-                    v = p + cos(i * i + (iTime + p.x * 0.08) * 0.025 + i * vec2(13.0, 11.0)) * 3.5 + vec2(sin(iTime * 3.0 + i) * 0.003, cos(iTime * 3.5 - i) * 0.003);
-                    float tailNoise = fbm(v + vec2(iTime * 0.5, i)) * 0.3 * (1.0 - (i / 20.0));
-                    vec4 auroraColors = vec4(
-                        0.1 + 0.3 * sin(i * 0.2 + iTime * 0.4),
-                        0.3 + 0.5 * cos(i * 0.3 + iTime * 0.5),
-                        0.7 + 0.3 * sin(i * 0.4 + iTime * 0.3),
-                        1.0
-                    );
-                    vec4 currentContribution = auroraColors * exp(sin(i * i + iTime * 0.8)) / length(max(v, vec2(v.x * f * 0.015, v.y * 1.5)));
-                    float thinnessFactor = smoothstep(0.0, 1.0, i / 20.0) * 0.6;
-                    o += currentContribution * (1.0 + tailNoise * 0.8) * thinnessFactor;
-                }
-
-                o = tanh(pow(o / 100.0, vec4(1.6)));
-                gl_FragColor = o * 1.5;
-            }
-        `
-    });
-
-    const geometry = new THREE.PlaneGeometry(2, 2);
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-
-    // Respect reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    let lastTime = 0;
-    function animate(now) {
-        if (!prefersReducedMotion) {
-            requestAnimationFrame(animate);
-        }
-        if (now - lastTime < 33) return; // ~30fps cap
-        lastTime = now;
-        material.uniforms.iTime.value += 0.016;
-        renderer.render(scene, camera);
+    // ALL grid lines in ONE beginPath → ONE stroke
+    og.beginPath();
+    for (let c = 0; c <= cols; c++) {
+      const x = c * CELL;
+      og.moveTo(x, 0);
+      og.lineTo(x, offscreen.height);
     }
-    requestAnimationFrame(animate);
-
-    window.addEventListener('resize', () => {
-        renderer.setSize(container.offsetWidth, container.offsetHeight);
-        material.uniforms.iResolution.value.set(container.offsetWidth, container.offsetHeight);
-    });
-})();
-
-// ---------- Scroll Fade-In ----------
-const faders = document.querySelectorAll('.fade-in:not(.stagger-children .fade-in)');
-const fadeObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            fadeObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.12 });
-faders.forEach(el => fadeObserver.observe(el));
-
-// ---------- Staggered Fade-In ----------
-const staggerContainers = document.querySelectorAll('.stagger-children');
-const staggerObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const children = entry.target.querySelectorAll('.fade-in');
-            children.forEach((child, i) => {
-                child.style.transitionDelay = `${i * 120}ms`;
-                // Small timeout to ensure the delay is applied before triggering
-                requestAnimationFrame(() => child.classList.add('visible'));
-            });
-            staggerObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.1 });
-staggerContainers.forEach(el => staggerObserver.observe(el));
-
-// ---------- Active Nav Highlighting ----------
-const sections = document.querySelectorAll('.section');
-const navLinks = document.querySelectorAll('.nav-links a');
-const highlightObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            navLinks.forEach(link => {
-                link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
-            });
-        }
-    });
-}, { rootMargin: '-40% 0px -55% 0px' });
-sections.forEach(s => highlightObserver.observe(s));
-
-// ---------- Mobile Hamburger ----------
-const hamburger = document.getElementById('hamburger');
-const navLinksEl = document.getElementById('navLinks');
-hamburger.addEventListener('click', () => {
-    navLinksEl.classList.toggle('open');
-});
-navLinksEl.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => navLinksEl.classList.remove('open'));
-});
-
-// ---------- Hero Text Reveal ----------
-(function () {
-    const h1 = document.querySelector('.hero h1');
-    if (!h1) return;
-    const html = h1.innerHTML;
-    
-    // Parse the HTML, wrapping text characters in spans while preserving tags
-    let letterIndex = 0;
-    const baseDelay = 0.3; // seconds — wait for badge to appear first
-    const perLetter = 0.04; // seconds per letter
-    
-    let newHTML = '';
-    let insideTag = false;
-    let insideGradient = false;
-    
-    for (let i = 0; i < html.length; i++) {
-        if (html[i] === '<') {
-            insideTag = true;
-            if (html.substring(i).startsWith('<span class="gradient-text">')) {
-                insideGradient = true;
-            }
-            if (html.substring(i).startsWith('</span>')) {
-                insideGradient = false;
-            }
-            newHTML += html[i];
-        } else if (html[i] === '>') {
-            insideTag = false;
-            newHTML += html[i];
-        } else if (insideTag) {
-            newHTML += html[i];
-        } else if (html[i] === ' ') {
-            newHTML += '<span class="letter-space"></span>';
-        } else {
-            const delay = baseDelay + letterIndex * perLetter;
-            newHTML += `<span class="letter" style="animation-delay:${delay.toFixed(2)}s">${html[i]}</span>`;
-            letterIndex++;
-        }
+    for (let r = 0; r <= rows; r++) {
+      const y = r * CELL;
+      og.moveTo(0, y);
+      og.lineTo(offscreen.width, y);
     }
-    
-    h1.innerHTML = newHTML;
-})();
+    og.strokeStyle = `rgba(${OR[0]},${OR[1]},${OR[2]},0.07)`;
+    og.lineWidth   = 0.5;
+    og.stroke();  // ← THE ONLY STROKE CALL. Ever.
+  }
 
-// ---------- Hero Parallax ----------
-(function () {
-    const hero = document.querySelector('.hero');
-    const heroContent = document.querySelector('.hero-content');
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (!hero || !heroContent) return;
-    
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                const scrollY = window.scrollY;
-                const heroH = hero.offsetHeight;
-                if (scrollY < heroH) {
-                    const progress = scrollY / heroH;
-                    heroContent.style.transform = `translateY(${scrollY * 0.3}px)`;
-                    heroContent.style.opacity = 1 - progress * 1.2;
-                    if (scrollIndicator) {
-                        scrollIndicator.style.opacity = 1 - progress * 3;
-                    }
-                }
-                ticking = false;
-            });
-            ticking = true;
-        }
-    });
-})();
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    cols  = Math.ceil(canvas.width  / CELL) + 1;
+    rows  = Math.ceil(canvas.height / CELL) + 1;
+    grid  = Array.from({ length: rows }, () => new Float32Array(cols));
+    buildOffscreen();
+  }
 
-// ---------- Card Cursor Glow ----------
-document.querySelectorAll('.glass-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-    });
-});
+  resize();
+  window.addEventListener('resize', () => resize(), { passive: true });
 
-// ---------- Navbar Scroll Effect ----------
-(function () {
-    const navbar = document.getElementById('navbar');
-    if (!navbar) return;
-    
-    let lastScrolled = false;
-    window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY > 80;
-        if (scrolled !== lastScrolled) {
-            navbar.classList.toggle('navbar--scrolled', scrolled);
-            lastScrolled = scrolled;
-        }
-    });
-})();
-// ---------- Interactive Skills ----------
-function updateSkill(element, info) {
-    const group = element.closest('.skill-group');
-    const infoField = group.querySelector('.skill-info');
+  // Track mouse over the whole hero section
+  const heroEl = canvas.parentElement;
+  heroEl.addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - r.left;
+    mouse.y = e.clientY - r.top;
+  }, { passive: true });
+  heroEl.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
 
-    // Toggle active state
-    const isActive = element.classList.contains('active');
+  // ---------- Static reduced-motion fallback ----------
+  if (prefersReducedMotion) {
+    buildOffscreen();
+    ctx.drawImage(offscreen, 0, 0);
+    return;
+  }
 
-    // Reset all tags in this group
-    group.querySelectorAll('.skill-tag').forEach(tag => tag.classList.remove('active'));
+  // ---------- Draw loop ----------
+  function draw(ts) {
+    requestAnimationFrame(draw);
+    if (ts - last < FRAME_MS) return;   // skip frames to cap fps
+    last = ts;
 
-    if (isActive) {
-        // If clicking same tag, hide info
-        infoField.classList.remove('visible');
-    } else {
-        // Set new active tag
-        element.classList.add('active');
+    // 1. Blit pre-rendered grid (ONE gpu texture copy)
+    ctx.drawImage(offscreen, 0, 0);
 
-        // Update and show info
-        infoField.classList.remove('visible');
-        setTimeout(() => {
-            infoField.innerText = info;
-            infoField.classList.add('visible');
-        }, 150);
+    // 2. Activate cells near mouse
+    const mCol = Math.floor(mouse.x / CELL);
+    const mRow = Math.floor(mouse.y / CELL);
+    const RADIUS = 3;
+    for (let dr = -RADIUS; dr <= RADIUS; dr++) {
+      for (let dc = -RADIUS; dc <= RADIUS; dc++) {
+        const r = mRow + dr, c = mCol + dc;
+        if (r < 0 || r >= rows || c < 0 || c >= cols) continue;
+        const dist = Math.sqrt(dr * dr + dc * dc);
+        if (dist > RADIUS) continue;
+        const strength = (1 - dist / RADIUS) * 0.6;
+        if (grid[r][c] < strength) grid[r][c] = strength;
+      }
     }
+
+    // 3. Random ambient flickers (sparse — 1–2 per frame)
+    if (Math.random() < 0.5) {
+      const r = Math.floor(Math.random() * rows);
+      const c = Math.floor(Math.random() * cols);
+      if (grid[r][c] < 0.08) grid[r][c] = 0.08 + Math.random() * 0.18;
+    }
+
+    // 4. Draw lit cells + decay — fake glow via 3 stacked rects, no blur
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const a = grid[r][c];
+        if (a < 0.004) { grid[r][c] = 0; continue; }
+
+        const x = c * CELL;
+        const y = r * CELL;
+
+        // Outer soft halo (large, very faint)
+        ctx.fillStyle = `rgba(${OR[0]},${OR[1]},${OR[2]},${(a * 0.12).toFixed(3)})`;
+        ctx.fillRect(x - 4, y - 4, CELL + 8, CELL + 8);
+
+        // Mid glow ring
+        ctx.fillStyle = `rgba(${OR[0]},${OR[1]},${OR[2]},${(a * 0.30).toFixed(3)})`;
+        ctx.fillRect(x, y, CELL, CELL);
+
+        // Core bright cell (inner 60%)
+        const inset = Math.floor(CELL * 0.2);
+        ctx.fillStyle = `rgba(${OR[0]},${OR[1]},${OR[2]},${(a * 0.65).toFixed(3)})`;
+        ctx.fillRect(x + inset, y + inset, CELL - inset * 2, CELL - inset * 2);
+
+        grid[r][c] *= DECAY;
+      }
+    }
+  }
+
+  requestAnimationFrame(draw);
+})();
+
+
+
+
+
+
+// ============================================================
+// NAVBAR — scroll state
+// ============================================================
+(function () {
+  const navbar = document.getElementById('navbar');
+  if (!navbar) return;
+  let last = false;
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY > 50;
+    if (scrolled !== last) {
+      navbar.classList.toggle('navbar--scrolled', scrolled);
+      last = scrolled;
+    }
+  }, { passive: true });
+})();
+
+
+// ============================================================
+// HAMBURGER — mobile nav
+// ============================================================
+(function () {
+  const btn   = document.getElementById('hamburger');
+  const links = document.getElementById('navLinks');
+  if (!btn || !links) return;
+
+  btn.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      links.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+
+
+// ============================================================
+// ACTIVE NAV — intersection observer
+// ============================================================
+(function () {
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section[id], div.timeline-flow[id]');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.toggle('active',
+            link.getAttribute('href') === '#' + entry.target.id
+          );
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(s => obs.observe(s));
+})();
+
+
+// ============================================================
+// TIMELINE CARDS — scroll reveal
+// ============================================================
+(function () {
+  const cards = document.querySelectorAll('.tcard');
+  if (!cards.length) return;
+
+  if (prefersReducedMotion) {
+    cards.forEach(el => el.classList.add('visible'));
+    return;
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  cards.forEach(el => obs.observe(el));
+})();
+
+
+// ============================================================
+// SIGNAL MAP CLUSTERS — scroll reveal (staggered)
+// ============================================================
+(function () {
+  const clusters = document.querySelectorAll('.cluster');
+  if (!clusters.length) return;
+
+  if (prefersReducedMotion) {
+    clusters.forEach(el => el.classList.add('visible'));
+    return;
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const siblings = Array.from(entry.target.parentElement.querySelectorAll('.cluster'));
+        const idx = siblings.indexOf(entry.target);
+        setTimeout(() => entry.target.classList.add('visible'), idx * 90);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  clusters.forEach(el => obs.observe(el));
+})();
+
+
+// ============================================================
+// HERO PARALLAX — subtle lift on scroll
+// ============================================================
+(function () {
+  if (prefersReducedMotion) return;
+  const content   = document.querySelector('.hero-content');
+  const scrollHint = document.querySelector('.scroll-hint');
+  const hero      = document.querySelector('.hero');
+  if (!content || !hero) return;
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      const h = hero.offsetHeight;
+      if (y < h) {
+        const p = y / h;
+        content.style.transform = `translateY(${-y * 0.08}px)`;
+        content.style.opacity   = String(Math.max(0, 1 - p * 2.5));
+        if (scrollHint) scrollHint.style.opacity = String(1 - p * 6);
+      }
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+
+
+// ============================================================
+// SIGNAL MAP — node click (carry-over interaction)
+// ============================================================
+function activateNode(el, info) {
+  const cluster = el.closest('.cluster');
+  if (!cluster) return;
+  const infoEl  = cluster.querySelector('.node-info');
+  const nodes   = cluster.querySelectorAll('.node');
+  const was     = el.classList.contains('active');
+
+  nodes.forEach(n => n.classList.remove('active'));
+
+  if (was) {
+    // Collapse
+    if (infoEl) { infoEl.textContent = ''; }
+  } else {
+    el.classList.add('active');
+    if (infoEl) {
+      infoEl.textContent = '';
+      setTimeout(() => { infoEl.textContent = info; }, 120);
+    }
+  }
 }
