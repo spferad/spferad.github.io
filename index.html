@@ -31,7 +31,7 @@
     <li><a href="#winning"><span>III</span>Winning</a></li>
     <li><a href="#teaching"><span>IV</span>Teaching</a></li>
     <li><a href="#now"><span>V</span>Now</a></li>
-    <li><a href="#skills"><span>VI</span>Skills</a></li>
+    <li><a href="#koblenz"><span>VI</span>Koblenz</a></li>
     <li><a href="#colophon"><span>VII</span>Colophon</a></li>
   </ol>
 </nav>
@@ -69,7 +69,7 @@
   <!-- III. Winning -->
   <section class="chapter ground-paper winning" id="winning" data-chapter="III" data-title="Winning" data-ground="paper">
     <div class="winning__inner">
-      <h2 class="win" data-sc-reveal="left" data-sc-reveal-at="0.05 0.3">First place.</h2>
+      <h2 class="win" data-scrub="in">First place.</h2>
       <div class="winning__text" data-sc-in data-sc-stagger="90">
         <p class="meta">AI Challenge, Developer's Day by kariera.gr, November 2025</p>
         <p>The task was sentiment analysis: take raw customer reviews, train a model to classify them, and deploy it inside the competition's time limit.</p>
@@ -124,16 +124,16 @@
   <!-- V. Now: the present, and the longest stretch of type on the page after the peak. -->
   <section class="chapter ground-tint now" id="now" data-chapter="V" data-title="Now" data-ground="tint">
     <div class="now__inner">
-      <h2 class="now__name" data-sc-in>Now.</h2>
+      <h2 class="now__name" data-scrub="in">Now.</h2>
       <div class="now__dateline" aria-hidden="true">
-        <span class="now__rule" data-sc-reveal="left" data-sc-reveal-at="0.12 0.5"></span>
+        <span class="now__rule" data-scrub="in" data-scrub-follow=".now__name"></span>
       </div>
       <dl class="now__list">
         <div class="now__row now__row--main" data-sc-in>
-          <dt>Oct 2026 to</dt>
+          <dt>Oct 2026 to present</dt>
           <dd>
-            <p class="now__role">Expertise Associate, UniAI</p>
-            <p class="now__lede">I work on applied AI projects with the UniAI Expertise department, and I create educational content for the community.</p>
+            <h3>UniAI</h3>
+            <p>Expertise Associate. I work on applied AI projects with the UniAI Expertise department, and I create educational content for the community.</p>
             <p>UniAI is a non-profit student initiative, and I joined it as a member of the Expertise team. It works more like a team of peers than an employer: research, programming and communication come together to produce original material and initiatives.</p>
           </dd>
         </div>
@@ -145,41 +145,31 @@
           </dd>
         </div>
         <div class="now__row" data-sc-in>
-          <dt>Sep 2022 to</dt>
+          <dt>Sep 2022 to present</dt>
           <dd>
             <h3>NKUA</h3>
-            <p>Fifth year of the Bachelor of Science in Informatics and Telecommunications at the National and Kapodistrian University of Athens. GPA 8.44 out of 10.</p>
+            <p>Fifth year of the Bachelor of Science in Informatics and Telecommunications at the National and Kapodistrian University of Athens.</p>
           </dd>
         </div>
       </dl>
     </div>
   </section>
 
-  <!-- VI. Skills -->
-  <section class="chapter ground-paper tools" id="skills" data-chapter="VI" data-title="Skills" data-ground="paper">
-    <div class="tools__inner">
-      <h2 class="tools__head" data-sc-in>Skills</h2>
-      <div class="index" data-sc-stagger="90">
-        <section class="index__group" data-sc-in>
-          <h3>Programming languages</h3>
-          <p>C, C++, Python, SQL, Java.</p>
-        </section>
-        <section class="index__group" data-sc-in>
-          <h3>Core</h3>
-          <p>Software engineering, low-level C programming, algorithms and data structures, systems programming, cloud computing, relational database design and SQL query optimization.</p>
-        </section>
-        <section class="index__group" data-sc-in>
-          <h3>Artificial intelligence</h3>
-          <p>Machine learning fundamentals, neural networks, bot services, Cognitive Services, model training and evaluation with Python, scikit-learn and TensorFlow.</p>
-        </section>
-        <section class="index__group" data-sc-in>
-          <h3>Tools</h3>
-          <p>Git, Linux and Unix, Visual Studio Code, GCC, Azure (certified), Google Cloud.</p>
-        </section>
-        <section class="index__group" data-sc-in>
-          <h3>Human languages</h3>
-          <p>English (C2, Michigan Proficiency), German (B2, &Ouml;SD Zertifikat), Greek (native).</p>
-        </section>
+  <!-- VI. Koblenz: a departure board. Letters flip from ATHENS to KOBLENZ as you scroll,
+       and the real straight-line distance (1,876 km) counts down to zero. -->
+  <section class="chapter ground-red koblenz pinned" id="koblenz" data-chapter="VI" data-title="Koblenz" data-ground="red"
+           data-sc-act="pin" data-sc-span="2.6">
+    <div class="sc-stage koblenz__stage" data-sc-stage>
+      <div class="koblenz__in" data-fit>
+        <div class="board" id="board" aria-hidden="true">
+          <div class="board__row board__row--city" id="cityRow"></div>
+          <div class="board__km"><p class="board__read"><span class="board__num" id="kmNum">1,876</span><span class="board__go" id="kmGo"> km to go</span></p><p class="board__unit" id="kmNote">In a straight line, Athens to Koblenz.</p></div>
+          <div class="board__dates">
+            <div class="board__row board__row--date" id="dateRow1"></div>
+            <div class="board__row board__row--date" id="dateRow2"></div>
+          </div>
+        </div>
+        <p class="koblenz__text" id="koblenzText">Erasmus semester in Computer Science at Universit&auml;t Koblenz, Germany. April to July 2027.</p>
       </div>
     </div>
   </section>
@@ -189,6 +179,10 @@
     <div class="colophon__inner" data-sc-in data-sc-stagger="90">
       <p class="colophon__lede">Write to <a href="mailto:spferad@gmail.com">spferad@gmail.com</a>.</p>
       <p>Code is on <a href="https://github.com/spferad" target="_blank" rel="noopener">GitHub</a>, professional history on <a href="https://linkedin.com/in/spyros-feradouros-9389732b0" target="_blank" rel="noopener">LinkedIn</a>, and a summary in my <a href="Resume.pdf" target="_blank" rel="noopener">r&eacute;sum&eacute;</a>.</p>
+      <dl class="colophon__skills">
+        <div><dt>Skills</dt><dd>Systems and low-level programming, algorithms and data structures, software engineering, machine learning and neural networks with model training and evaluation, cloud computing on Azure (certified), relational databases and SQL optimization, Linux and Unix.</dd></div>
+        <div><dt>Languages</dt><dd>English (C2), German (B2), Greek (native).</dd></div>
+      </dl>
       <p class="colophon__fine">Set in Newsreader and IBM Plex Mono. Last revised October 2026. &copy; Spyridon Feradouros.</p>
     </div>
   </section>
