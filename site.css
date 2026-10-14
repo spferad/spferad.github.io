@@ -34,7 +34,8 @@ body { font-optical-sizing: auto; }
 .ground-ink   { background: var(--night); --sc-canvas: var(--night); --sc-ink: #ecEAe0; --sc-ink-soft: #a9a598; --sc-accent: #ff7a57; color: var(--sc-ink); }
 
 .chapter { padding-inline: var(--sc-gutter); }
-.chapter:not(.title):not(.teaching) { padding-block: var(--sc-section); }
+.chapter.pinned { padding-inline: 0; }
+.chapter:not(.title):not(.pinned) { padding-block: var(--sc-section); }
 
 .textlink, .chapter p a, .colophon a {
   color: var(--sc-accent);
@@ -115,13 +116,11 @@ body { font-optical-sizing: auto; }
 .title__foot { animation: rise 800ms var(--sc-ease-out) 320ms both; }
 
 /* ------------------------------------------------------------ prologue -- */
-.prologue__col {
-  max-width: var(--sc-measure);
-  margin-left: clamp(0px, 25vw, 22rem);
-  display: grid; gap: 1.1em;
-  text-wrap: pretty;
-}
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.prologue__stage { display: grid; align-content: start; padding: clamp(5rem, 19vh, 11rem) var(--sc-gutter) 2rem; background: var(--tint); }
+.prologue__col { max-width: var(--sc-measure); margin-left: clamp(0px, 25vw, 22rem); display: grid; gap: 1.6em; text-wrap: pretty; }
 .prologue p { margin: 0; color: var(--sc-ink-soft); }
+.prologue__rest { display: grid; gap: 1.1em; }
 .prologue .meta { font-family: var(--sc-font-mono); font-size: 0.8rem; letter-spacing: 0.03em; color: var(--sc-ink); margin-bottom: 0.6em; }
 .prologue .lede {
   color: var(--sc-ink);
@@ -129,10 +128,31 @@ body { font-optical-sizing: auto; }
   line-height: 1.12;
   letter-spacing: -0.02em;
   font-weight: 360;
-  margin-bottom: 0.5em;
   text-wrap: balance;
   max-width: 17em;
 }
+/* The edit pass: a draft that gets proofread. Each word is its own small group
+   that grows in with a short stagger; "like" is struck by a drawn line and then
+   collapses. A pure function of scroll progress, eased in time. */
+.lede__edit { display: none; }
+.js .lede__edit { display: inline; }
+.js .lede__final { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.g { display: inline-block; overflow-x: clip; white-space: nowrap; vertical-align: baseline; max-width: 0; margin: 0; opacity: 0; }
+/* Words carry their space on the right, so a wrapped line never starts indented.
+   A full stop pulls itself back over the space of the word before it. */
+.g.show { max-width: var(--mw, 20em); margin-right: 0.26em; opacity: 1; }
+.g.p.show { margin-left: -0.26em; margin-right: 0; }
+.g .w { display: inline; }
+.g.ins .w { color: var(--sc-accent); }
+.lede__edit.clean .g.ins .w { color: var(--sc-ink); }
+.g.del .w { background: linear-gradient(var(--sc-accent), var(--sc-accent)) no-repeat 0 58% / 0% 0.07em; }
+.g.del.struck .w { background-size: 100% 0.07em; color: var(--sc-ink-soft); }
+.lede__edit.ready .g { transition: max-width 520ms var(--sc-ease-out), margin 520ms var(--sc-ease-out), opacity 420ms var(--sc-ease-out); }
+.lede__edit.ready .g.show { transition-delay: calc(var(--i, 0) * 55ms); }
+.lede__edit.ready .g.del .w { transition: background-size 420ms var(--sc-ease-out), color 420ms var(--sc-ease-out); }
+.lede__edit.ready .g.ins .w { transition: color 600ms var(--sc-ease-out); }
+.js .prologue__rest { opacity: 0; transform: translate3d(0, 10px, 0); transition: opacity 420ms var(--sc-ease-out), transform 420ms var(--sc-ease-out); }
+.js .prologue__rest.on { opacity: 1; transform: none; }
 
 /* ---------------------------------------------------- teaching (peak) -- */
 .teaching { padding-inline: 0; }
@@ -194,9 +214,9 @@ body { font-optical-sizing: auto; }
 .now__text .now__lede { color: var(--sc-ink); font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.3rem); line-height: 1.16; letter-spacing: -0.02em; margin-block: 0.2em; text-wrap: balance; }
 .now__text .now__before { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid color-mix(in oklab, var(--sc-ink) 28%, transparent); font-size: 0.92em; }
 
-/* --------------------------------------------------------------- tools -- */
+/* ------------------------------------------------------------- skills -- */
 .tools__inner { max-width: 88rem; margin-inline: auto; }
-.tools__head { margin: 0 0 clamp(2.5rem, 6vw, 5rem); font-weight: 340; font-size: clamp(2.4rem, 1.4rem + 3.8vw, 5rem); line-height: 1; letter-spacing: -0.035em; max-width: 12em; text-wrap: balance; }
+.tools__head { margin: 0 0 clamp(2rem, 5vw, 4rem); font-weight: 340; font-size: clamp(2.4rem, 1.4rem + 3.8vw, 5rem); line-height: 1; letter-spacing: -0.035em; }
 .index { display: grid; gap: 0; }
 .index__group { display: grid; grid-template-columns: minmax(9rem, 14rem) minmax(0, 1fr); gap: 0.4rem 2rem; padding: 1rem 0 1.4rem; border-top: 1px solid var(--sc-ink); }
 .index__group h3 { margin: 0; font-family: var(--sc-font-mono); font-weight: 400; font-size: 0.8rem; letter-spacing: 0.03em; padding-top: 0.45rem; }
@@ -212,8 +232,17 @@ body { font-optical-sizing: auto; }
 .colophon__fine { font-family: var(--sc-font-mono); font-size: 0.72rem; letter-spacing: 0.02em; margin-top: 3rem !important; }
 
 /* -------------------------------------------------------------- mobile -- */
+/* Fallback when a pinned stage does not fit the viewport: plain scrolling, final state. */
+.nopin .sc-stage-off { height: auto; position: static; overflow: visible; }
+.pinned.nopin { padding-block: var(--sc-section); padding-inline: var(--sc-gutter); }
+.pinned.nopin .prologue__stage { padding-inline: 0; }
+.pinned.nopin .prologue__stage, .pinned.nopin .run { padding-top: 0; padding-bottom: 0; background: transparent; }
+.pinned.nopin .run { padding-inline: var(--sc-gutter); }
+
 @media (max-width: 860px) {
   .prologue__col, .winning__text, .colophon__inner { margin-left: 0; }
+  .prologue__stage { padding-top: 4.2rem; }
+  .index__group { grid-template-columns: 1fr; padding: 0.8rem 0 1rem; }
   .run { align-items: start; padding-top: 3.6rem; }
   .run__grid { grid-template-columns: 1fr; gap: 1rem; }
   .listing__note { display: none; }
@@ -231,6 +260,7 @@ body { font-optical-sizing: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .lede__edit .g, .lede__edit .g .w { transition: none !important; }
   .name, .title__foot { animation: none; }
   .js .ln, .js .out { opacity: 1; transform: none; }
 }

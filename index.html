@@ -28,8 +28,8 @@
   <ol class="folio__list" id="folioList">
     <li><a href="#title"><span>I</span>Title page</a></li>
     <li><a href="#prologue"><span>II</span>Prologue</a></li>
-    <li><a href="#teaching"><span>III</span>Teaching</a></li>
-    <li><a href="#winning"><span>IV</span>Winning</a></li>
+    <li><a href="#winning"><span>III</span>Winning</a></li>
+    <li><a href="#teaching"><span>IV</span>Teaching</a></li>
     <li><a href="#now"><span>V</span>Now</a></li>
     <li><a href="#skills"><span>VI</span>Skills</a></li>
     <li><a href="#colophon"><span>VII</span>Colophon</a></li>
@@ -50,20 +50,41 @@
   </section>
 
   <!-- II. Prologue -->
-  <section class="chapter ground-tint prologue" id="prologue" data-chapter="II" data-title="Prologue" data-ground="tint">
-    <div class="prologue__col" data-sc-in data-sc-stagger="90">
-      <p class="lede">I am interested in finding problems worth solving and developing solutions to them.</p>
-      <p class="meta">Informatics and Telecommunications, NKUA. Fifth year, since 2022.</p>
-      <p>My main interest is the process of turning an idea into something useful: identifying what would be of real help, and building something people can use.</p>
-      <p>My studies provide the technical foundation for this. Even though I enjoy the technical side of computer science, my deeper interest lies in finding solutions to real problems. Outside my coursework, I look for opportunities to build with others and to test ideas.</p>
+  <section class="chapter ground-tint prologue pinned" id="prologue" data-chapter="II" data-title="Prologue" data-ground="tint"
+           data-sc-act="pin" data-sc-span="1.8">
+    <div class="sc-stage prologue__stage" data-sc-stage>
+      <div class="prologue__col" data-fit>
+        <p class="lede">
+          <span class="lede__final">I am interested in finding problems worth solving and developing solutions to them.</span>
+          <span class="lede__edit" id="ledeEdit" aria-hidden="true"><span class="g show first" style="--i:0"><span class="w">I</span></span><span class="g show del" style="--i:0" id="ledeDel"><span class="w">like</span></span><span class="g ins" data-grp="1" style="--i:0"><span class="w">am</span></span><span class="g ins" data-grp="1" style="--i:1"><span class="w">interested</span></span><span class="g ins" data-grp="1" style="--i:2"><span class="w">in</span></span><span class="g show" style="--i:0"><span class="w">finding</span></span><span class="g show" style="--i:0"><span class="w">problems</span></span><span class="g show p" style="--i:0" id="ledePeriodA"><span class="w">.</span></span><span class="g ins" data-grp="2" style="--i:0"><span class="w">worth</span></span><span class="g ins" data-grp="2" style="--i:1"><span class="w">solving</span></span><span class="g ins" data-grp="3" style="--i:0"><span class="w">and</span></span><span class="g ins" data-grp="3" style="--i:1"><span class="w">developing</span></span><span class="g ins" data-grp="3" style="--i:2"><span class="w">solutions</span></span><span class="g ins" data-grp="3" style="--i:3"><span class="w">to</span></span><span class="g ins" data-grp="3" style="--i:4"><span class="w">them</span></span><span class="g ins p" data-grp="3" style="--i:5"><span class="w">.</span></span></span>
+        </p>
+        <div class="prologue__rest" id="prologueRest">
+          <p class="meta">Informatics and Telecommunications, NKUA. Fifth year, since 2022.</p>
+          <p>My main interest is the process of turning an idea into something useful: identifying what would be of real help, and building something people can use.</p>
+          <p>My studies provide the technical foundation for this. Even though I enjoy the technical side of computer science, my deeper interest lies in finding solutions to real problems. Outside my coursework, I look for opportunities to build with others and to test ideas.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- III. Teaching: the peak. A sample C program runs as you scroll; its output is the chapter. -->
-  <section class="chapter ground-ink teaching" id="teaching" data-chapter="III" data-title="Teaching" data-ground="ink"
+  <!-- III. Winning -->
+  <section class="chapter ground-paper winning" id="winning" data-chapter="III" data-title="Winning" data-ground="paper">
+    <div class="winning__inner">
+      <h2 class="win" data-sc-reveal="left" data-sc-reveal-at="0.05 0.3">First place.</h2>
+      <div class="winning__text" data-sc-in data-sc-stagger="90">
+        <p class="meta">AI Challenge, Developer's Day by kariera.gr, November 2025</p>
+        <p>The task was sentiment analysis: take raw customer reviews, train a model to classify them, and deploy it inside the competition's time limit.</p>
+        <p>I designed and implemented the machine learning pipeline, a practical application of AI. It placed first, and was recognised by developers and industry professionals for its creativity, technical skill and presentation quality.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- IV. Teaching: the peak. A sample C program runs as you scroll; its output is the chapter. -->
+  <section class="chapter ground-ink teaching pinned" id="teaching" data-chapter="IV" data-title="Teaching" data-ground="ink"
            data-sc-act="pin" data-sc-span="3.6">
     <div class="sc-stage run" data-sc-stage>
-      <div class="run__grid">
+      <div class="run__grid" data-fit>
         <figure class="listing">
           <figcaption class="listing__cap">
             <span class="listing__file">teach.c</span>
@@ -97,18 +118,6 @@
           <p class="out out--body" data-o="4">I helped them with exercises and debugging, and held office hours.</p>
           <p class="out out--body" data-o="5">I worked with the instructor on teaching approaches, course material and labs.</p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- IV. Winning -->
-  <section class="chapter ground-paper winning" id="winning" data-chapter="IV" data-title="Winning" data-ground="paper">
-    <div class="winning__inner">
-      <h2 class="win" data-sc-reveal="left" data-sc-reveal-at="0.05 0.3">First place.</h2>
-      <div class="winning__text" data-sc-in data-sc-stagger="90">
-        <p class="meta">AI Challenge, Developer's Day by kariera.gr, November 2025</p>
-        <p>The task was sentiment analysis: take raw customer reviews, train a model to classify them, and deploy it inside the competition's time limit.</p>
-        <p>I designed and implemented the machine learning pipeline, a practical application of AI. It placed first, and was recognised by developers and industry professionals for its creativity, technical skill and presentation quality.</p>
       </div>
     </div>
   </section>
