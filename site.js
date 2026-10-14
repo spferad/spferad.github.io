@@ -114,7 +114,7 @@
       var b = before.get(g);
       if (!b || !g.classList.contains('show')) return;
       var a = g.getBoundingClientRect();
-      var dx = b.left - a.left, dy = b.top - a.top;
+      var dx = (b.left - a.left) / zoomFactor(), dy = (b.top - a.top) / zoomFactor();
       if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
       g.style.transition = 'none';
       g.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
@@ -144,7 +144,11 @@
   // Reserve the sentence's finished height from the start, so the block never changes
   // size while it is edited and can sit centred in the screen without shifting.
   var ledeEl = document.querySelector('#prologue .lede');
+  var prologueFit = document.querySelector('#prologue [data-fit]');
+  function zoomFactor() { return parseFloat(prologueFit.style.zoom) || 1; }
   function measureLede() {
+    var savedZoom = prologueFit.style.zoom;
+    prologueFit.style.zoom = '';
     var keep = lastEdit;
     forceInstant = true;
     ledeEl.style.minHeight = '';
@@ -153,6 +157,7 @@
     lastEdit = -1; renderPrologue(keep <= 0 ? 0 : EDIT_AT[keep - 1]);
     forceInstant = false;
     ledeEl.style.minHeight = h + 'px';
+    prologueFit.style.zoom = savedZoom;
   }
   function renderPrologue(p) {
     var s = 0;
@@ -283,20 +288,30 @@
   }
 
   var moves = [
-    { act: prologue, render: renderPrologue, settled: 1 },
-    { act: teaching, render: renderTeaching, settled: 1 },
-    { act: kob, render: renderKoblenz, settled: 1 }
+    { act: prologue, render: renderPrologue, settled: 1, canZoom: true },
+    { act: teaching, render: renderTeaching, settled: 1, canZoom: true },
+    { act: kob, render: renderKoblenz, settled: 1, canZoom: true }
   ];
 
   /* ------------------------------------------------------ fit check -- */
   // A pinned stage is exactly one screen tall. If its content is taller than
   // the screen (a short laptop, a small phone) it would be clipped and
   // unreachable, so that chapter falls back to plain scrolling, fully revealed.
-  function fits(act) {
+  function fits(act, canZoom) {
     var stage = act.querySelector('[data-sc-stage]');
     var content = act.querySelector('[data-fit]');
     var padTop = parseFloat(getComputedStyle(stage).paddingTop) || 0;
-    return content.offsetHeight + padTop + 24 <= window.innerHeight;
+    content.style.zoom = '';
+    var need = content.offsetHeight + padTop + 24;
+    if (need <= window.innerHeight) return true;
+    // Too tall: shrink it to fit (down to 72%) before giving up on the pinned version.
+    // The prologue's word-gliding compensates for the zoom factor (see zoomFactor).
+    var s = (window.innerHeight - padTop - 24) / content.offsetHeight;
+    if (canZoom && s >= 0.72 && 'zoom' in document.documentElement.style) {
+      content.style.zoom = String(Math.floor(s * 100) / 100);
+      return true;
+    }
+    return false;
   }
   function unpin(m) {
     var stage = m.act.querySelector('[data-sc-stage]');
@@ -317,7 +332,7 @@
     measureWords();
     measureLede();
     moves.forEach(function (m) {
-      if (reduce || !fits(m.act)) unpin(m);
+      if (reduce || !fits(m.act, m.canZoom)) unpin(m);
       else m.render(0);
     });
     if (window.ScrollCraft) ScrollCraft.mount(document.body);

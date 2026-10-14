@@ -292,15 +292,16 @@ body { font-optical-sizing: auto; }
   .winning__text, .colophon__inner { margin-left: 0; }
   .colophon__skills div { grid-template-columns: 1fr; }
   .prologue__stage { padding-top: 4.2rem; }
-  .run { align-items: start; padding-top: 3.6rem; }
-  .run__grid { grid-template-columns: 1fr; gap: 1rem; }
+  .run { align-items: start; padding-top: 3rem; }
+  .run__grid { grid-template-columns: 1fr; gap: 0.7rem; }
   .listing__note { display: none; }
-  .listing__status { margin-top: 0.5rem; }
-  .listing__cap { margin-bottom: 0.6rem; }
-  .listing__code { line-height: 1.5; }
-  .out--title { font-size: clamp(1.7rem, 1.2rem + 2.6vw, 2.2rem); }
-  .output { gap: 0.7rem; }
-  .out--body { font-size: 1.05rem; }
+  .listing__status { margin-top: 0.35rem; }
+  .listing__cap { margin-bottom: 0.4rem; padding-bottom: 0.35rem; }
+  .listing__code { line-height: 1.38; font-size: 0.58rem; }
+  .out--title { font-size: clamp(1.45rem, 1.1rem + 1.8vw, 1.8rem); }
+  .output { gap: 0.5rem; }
+  .out--body { font-size: 0.98rem; line-height: 1.3; }
+  .out--org { font-size: 0.78rem; }
   .now__list { margin-left: 0; }
   .now__row { grid-template-columns: 1fr; }
   .now__name { font-size: clamp(4.4rem, 28vw, 8.5rem); }
