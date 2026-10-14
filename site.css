@@ -201,18 +201,21 @@ body { font-optical-sizing: auto; }
 .winning__text .meta { font-family: var(--sc-font-mono); font-size: 0.8rem; letter-spacing: 0.03em; color: var(--sc-ink); }
 
 /* ----------------------------------------------------------------- now -- */
-.now { padding-block: calc(var(--sc-section) * 1.15) !important; }
+.now { padding-block: calc(var(--sc-section) * 1.1) !important; }
 .now__inner { max-width: 88rem; margin-inline: auto; }
-.now__name { margin: 0; font-weight: 330; font-size: clamp(5rem, 22vw, 20rem); line-height: 0.85; letter-spacing: -0.04em; margin-left: -0.05em; }
-.now__dateline { display: flex; align-items: center; gap: 1.2rem; margin-top: clamp(1.5rem, 4vw, 3rem); }
-.now__date { font-family: var(--sc-font-mono); font-size: 0.85rem; letter-spacing: 0.03em; white-space: nowrap; }
-/* An open line: it runs off the right edge and never gets an end date. */
-.now__rule { flex: 1; height: 1px; background: var(--sc-ink); margin-right: calc(-1 * var(--sc-gutter)); align-self: center; }
-.now__text { margin-top: clamp(2rem, 5vw, 4rem); max-width: 34em; margin-left: clamp(0px, 25vw, 22rem); display: grid; gap: 1em; text-wrap: pretty; }
-.now__text p { margin: 0; color: var(--sc-ink-soft); }
-.now__text .meta { font-family: var(--sc-font-mono); font-size: 0.8rem; letter-spacing: 0.03em; color: var(--sc-ink); }
-.now__text .now__lede { color: var(--sc-ink); font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.3rem); line-height: 1.16; letter-spacing: -0.02em; margin-block: 0.2em; text-wrap: balance; }
-.now__text .now__before { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid color-mix(in oklab, var(--sc-ink) 28%, transparent); font-size: 0.92em; }
+.now__name { margin: 0; font-weight: 330; font-size: clamp(5rem, 21vw, 18rem); line-height: 0.85; letter-spacing: -0.05em; margin-left: -0.05em; }
+/* An open line: it runs off the right edge and never gets an end. */
+.now__dateline { display: flex; margin-top: clamp(1.5rem, 4vw, 3rem); }
+.now__rule { flex: 1; height: 1px; background: var(--sc-ink); margin-right: calc(-1 * var(--sc-gutter)); }
+.now__list { margin: clamp(2rem, 5vw, 4rem) 0 0 clamp(0px, 14vw, 12rem); max-width: 64rem; display: grid; gap: clamp(2rem, 4vw, 3rem); }
+.now__row { display: grid; grid-template-columns: minmax(7rem, 11rem) minmax(0, 1fr); gap: 0.6rem 2rem; padding-top: 1rem; border-top: 1px solid color-mix(in oklab, var(--sc-ink) 28%, transparent); }
+.now__row dt { font-family: var(--sc-font-mono); font-size: 0.8rem; letter-spacing: 0.03em; padding-top: 0.45rem; }
+.now__row dd { margin: 0; display: grid; gap: 0.8em; max-width: 34em; text-wrap: pretty; }
+.now__row p { margin: 0; color: var(--sc-ink-soft); }
+.now__row h3 { margin: 0; font-weight: 380; font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem); line-height: 1.1; letter-spacing: -0.02em; }
+.now__row--main { border-top: 0; padding-top: 0; }
+.now__role { font-family: var(--sc-font-mono); font-size: 0.8rem !important; letter-spacing: 0.03em; color: var(--sc-ink) !important; }
+.now__row .now__lede { color: var(--sc-ink); font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.3rem); line-height: 1.16; letter-spacing: -0.02em; text-wrap: balance; }
 
 /* ------------------------------------------------------------- skills -- */
 .tools__inner { max-width: 88rem; margin-inline: auto; }
@@ -253,8 +256,9 @@ body { font-optical-sizing: auto; }
   .output { gap: 0.7rem; }
   .out--body { font-size: 1.05rem; }
   .index__group { grid-template-columns: 1fr; }
-  .now__text { margin-left: 0; }
-  .now__name { font-size: clamp(4.4rem, 26vw, 8rem); }
+  .now__list { margin-left: 0; }
+  .now__row { grid-template-columns: 1fr; }
+  .now__name { font-size: clamp(4.4rem, 28vw, 8.5rem); }
   .title__foot { flex-direction: column; align-items: flex-start; }
   .name { font-size: clamp(2.8rem, 14vw, 5.2rem); }
 }
