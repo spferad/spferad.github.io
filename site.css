@@ -259,15 +259,25 @@ body { font-optical-sizing: auto; }
 
 /* ------------------------------------------------------------ colophon -- */
 .colophon { padding-bottom: clamp(3rem, 8vw, 6rem) !important; }
-.colophon__inner { max-width: var(--sc-measure); margin-left: clamp(0px, 25vw, 22rem); display: grid; gap: 1.1em; text-wrap: pretty; }
+.colophon__inner { max-width: 52rem; margin-left: clamp(0px, 25vw, 22rem); display: grid; gap: 1.1em; text-wrap: pretty; }
 .colophon p { margin: 0; color: var(--sc-ink-soft); }
 .colophon__lede { color: var(--sc-ink) !important; font-size: clamp(2rem, 1.3rem + 3vw, 3.6rem); line-height: 1.05; letter-spacing: -0.03em; font-weight: 350; margin-bottom: 0.3em !important; }
 .colophon__lede a { color: var(--sc-ink); text-decoration-color: var(--sc-accent); text-decoration-thickness: 2px; }
 .colophon__lede a:hover { color: var(--sc-accent); }
 .colophon__skills { margin: 1.6rem 0 0; display: grid; gap: 1.2rem; }
-.colophon__skills div { display: grid; grid-template-columns: minmax(5.5rem, 7rem) minmax(0, 1fr); gap: 0.3rem 1.5rem; padding-top: 0.9rem; border-top: 1px solid color-mix(in oklab, var(--sc-ink) 28%, transparent); }
+.colophon__skills div { display: grid; grid-template-columns: minmax(5.5rem, 9rem) minmax(0, 1fr); gap: 0.3rem 1.5rem; padding-top: 0.9rem; border-top: 1px solid color-mix(in oklab, var(--sc-ink) 28%, transparent); }
 .colophon__skills dt { font-family: var(--sc-font-mono); font-size: 0.8rem; letter-spacing: 0.03em; padding-top: 0.3rem; }
 .colophon__skills dd { margin: 0; color: var(--sc-ink-soft); font-size: clamp(1.05rem, 1rem + 0.25vw, 1.2rem); line-height: 1.4; }
+.colophon__skills .sk-line { display: block; }
+.colophon__skills .sk { border-radius: 0.2em; transition: color 160ms var(--sc-ease-out), background-color 160ms var(--sc-ease-out), box-shadow 160ms var(--sc-ease-out); }
+/* A skill gets a soft marker highlight and full ink under the cursor. Not red and not underlined: on this page those mean "link". */
+@media (hover: hover) and (pointer: fine) {
+  .colophon__skills .sk:hover {
+    color: var(--sc-ink);
+    background-color: color-mix(in oklab, var(--sc-ink) 13%, transparent);
+    box-shadow: 0 0 0 0.16em color-mix(in oklab, var(--sc-ink) 13%, transparent);
+  }
+}
 .colophon__fine { font-family: var(--sc-font-mono); font-size: 0.72rem; letter-spacing: 0.02em; margin-top: 3rem !important; }
 
 /* -------------------------------------------------------------- mobile -- */
