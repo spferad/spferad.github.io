@@ -1,435 +1,175 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spyros Feradouros</title>
-    <meta
-      name="description"
-      content="Portfolio of Spyros Feradouros — Computer Science student at NKUA, turning ideas into AI tools that work in the real world."
-    />
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spyros Feradouros</title>
+<meta name="description" content="Spyros Feradouros, computer science student at the National and Kapodistrian University of Athens.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Spyros Feradouros">
+<meta property="og:description" content="Computer science student at the National and Kapodistrian University of Athens.">
+<meta property="og:url" content="https://spferad.github.io">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#efeee8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
 
-    <!-- Open Graph / Social Sharing -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Spyros Feradouros" />
-    <meta
-      property="og:description"
-      content="Computer Science student at NKUA — turning ideas into AI tools that work in the real world."
-    />
-    <meta property="og:url" content="https://spferad.github.io" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Spyros Feradouros" />
-    <meta
-      name="twitter:description"
-      content="Computer Science student at NKUA — turning ideas into AI tools that work in the real world."
-    />
+<nav class="folio" id="folio" data-ground="paper" aria-label="Chapters">
+  <button class="folio__now" type="button" aria-expanded="false" aria-controls="folioList">
+    <span class="folio__no" id="folioNo">I</span>
+    <span class="folio__title" id="folioTitle">Title page</span>
+  </button>
+  <ol class="folio__list" id="folioList">
+    <li><a href="#title"><span>I</span>Title page</a></li>
+    <li><a href="#prologue"><span>II</span>Prologue</a></li>
+    <li><a href="#teaching"><span>III</span>Teaching</a></li>
+    <li><a href="#winning"><span>IV</span>Winning</a></li>
+    <li><a href="#now"><span>V</span>Now</a></li>
+    <li><a href="#skills"><span>VI</span>Skills</a></li>
+    <li><a href="#colophon"><span>VII</span>Colophon</a></li>
+  </ol>
+</nav>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<main>
 
-    <!-- Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css" />
-  </head>
-
-  <body>
-    <!-- ===== Navigation ===== -->
-    <nav class="navbar" id="navbar">
-      <div class="nav-inner">
-        <a href="#" class="nav-logo">spferad.</a>
-        <ul class="nav-links" id="navLinks">
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#awards">Awards</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li>
-            <a href="Resume.pdf" target="_blank" rel="noopener">Resume</a>
-          </li>
-        </ul>
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-          <span></span><span></span><span></span>
-        </button>
+  <!-- I. Title page -->
+  <section class="chapter ground-paper title" id="title" data-chapter="I" data-title="Title page" data-ground="paper">
+    <div class="title__inner">
+      <h1 class="name">Spyros<br>Feradouros</h1>
+      <div class="title__foot">
+        <p class="title__line">Computer science student at the National and Kapodistrian University of Athens.</p>
+        <a class="textlink" href="Resume.pdf" target="_blank" rel="noopener">Résumé, PDF</a>
       </div>
-    </nav>
+    </div>
+  </section>
 
-    <!-- ===== Hero ===== -->
-    <section class="hero" id="hero">
-      <canvas id="heroCanvas"></canvas>
-      <div class="hero-content">
-        <div class="hero-badge">
-          <i
-            class="fas fa-circle"
-            style="font-size: 6px; vertical-align: middle"
-          ></i>
-          Open to opportunities
-        </div>
-        <h1>Hi, I'm <span class="gradient-text">Spyros</span></h1>
-        <p class="hero-subtitle">
-          Computer Science student at NKUA — turning ideas into AI tools that
-          work in the real world.
-        </p>
-        <div class="hero-links fade-in">
-          <a href="#contact" class="btn-primary">
-            <i class="fas fa-envelope"></i> Get in Touch
-          </a>
-        </div>
-      </div>
-      <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
-    </section>
+  <!-- II. Prologue -->
+  <section class="chapter ground-tint prologue" id="prologue" data-chapter="II" data-title="Prologue" data-ground="tint">
+    <div class="prologue__col" data-sc-in data-sc-stagger="90">
+      <p class="lede">I am interested in finding problems worth solving and developing solutions to them.</p>
+      <p class="meta">Informatics and Telecommunications, NKUA. Fifth year, since 2022.</p>
+      <p>My main interest is the process of turning an idea into something useful: identifying what would be of real help, and building something people can use.</p>
+      <p>My studies provide the technical foundation for this. Even though I enjoy the technical side of computer science, my deeper interest lies in finding solutions to real problems. Outside my coursework, I look for opportunities to build with others and to test ideas.</p>
+    </div>
+  </section>
 
-    <!-- ===== About ===== -->
-    <section class="section" id="about">
-      <div class="section-header fade-in">
-        <div class="accent-line"></div>
-        <h2>About Me</h2>
-      </div>
-      <div class="glass-card about-card fade-in">
-        <p>
-          I'm a <span class="highlight">Computer Science</span> student at the
-          National and Kapodistrian University of Athens. What drives me isn't
-          the theory alone — it's seeing an idea become something
-          <span class="highlight">real</span>. I'm drawn to
-          <span class="highlight">artificial intelligence</span> because, while
-          it may be tech-based, it is
-          <span class="highlight">business-driven</span> — and that's where the
-          impact lives.
-        </p>
-        <p style="margin-top: 1rem">
-          My foundation spans
-          <span class="highlight"
-            >systems programming, AI, cloud computing, and software
-            engineering</span
-          >. Whether it's a hackathon under time pressure or a semester-long
-          group project, I thrive when building under constraints with a team —
-          and I'm always looking for the next problem worth solving.
-        </p>
-        <div style="margin-top: 2rem; display: flex; justify-content: center;">
-          <a href="Resume.pdf" class="btn-outline" target="_blank" rel="noopener" style="padding: 12px 28px; border-radius: 12px; font-weight: 500; font-size: 0.95rem; gap: 8px; align-items: center; display: inline-flex; transition: all 0.3s;">
-            <i class="fas fa-file-alt"></i> View Resume
-          </a>
+  <!-- III. Teaching: the peak. A sample C program runs as you scroll; its output is the chapter. -->
+  <section class="chapter ground-ink teaching" id="teaching" data-chapter="III" data-title="Teaching" data-ground="ink"
+           data-sc-act="pin" data-sc-span="3.6">
+    <div class="sc-stage run" data-sc-stage>
+      <div class="run__grid">
+        <figure class="listing">
+          <figcaption class="listing__cap">
+            <span class="listing__file">teach.c</span>
+            <span class="listing__note">A sample program written for this page.</span>
+          </figcaption>
+          <pre class="listing__code" aria-hidden="true"><code><span class="ln">#include &lt;stdio.h&gt;</span>
+<span class="ln"> </span>
+<span class="ln">int main(void) {</span>
+<span class="ln pf" data-g="0">    printf(&quot;Oct 2024 to Feb 2025\n&quot;);</span>
+<span class="ln pf" data-g="1">    printf(&quot;Undergraduate teaching &quot;</span>
+<span class="ln pf" data-g="1">           &quot;assistant (volunteer)\n&quot;);</span>
+<span class="ln pf" data-g="2">    printf(&quot;Department of Informatics and &quot;</span>
+<span class="ln pf" data-g="2">           &quot;Telecommunications, NKUA\n&quot;);</span>
+<span class="ln pf" data-g="3">    printf(&quot;I guided about 20 first-year students &quot;</span>
+<span class="ln pf" data-g="3">           &quot;through Introduction to Programming &quot;</span>
+<span class="ln pf" data-g="3">           &quot;(Unix, C).\n&quot;);</span>
+<span class="ln pf" data-g="4">    printf(&quot;I helped them with exercises and &quot;</span>
+<span class="ln pf" data-g="4">           &quot;debugging, and held office hours.\n&quot;);</span>
+<span class="ln pf" data-g="5">    printf(&quot;I worked with the instructor on teaching &quot;</span>
+<span class="ln pf" data-g="5">           &quot;approaches, course material and labs.\n&quot;);</span>
+<span class="ln">    return 0;</span>
+<span class="ln">}</span></code></pre>
+          <p class="listing__status" id="runStatus" aria-hidden="true">teach.c</p>
+        </figure>
+
+        <div class="output" id="runOut">
+          <p class="out out--date" data-o="0">Oct 2024 to Feb 2025</p>
+          <h2 class="out out--title" data-o="1">Undergraduate teaching assistant <span class="out__vol">(volunteer)</span></h2>
+          <p class="out out--org" data-o="2">Department of Informatics and Telecommunications, NKUA</p>
+          <p class="out out--body" data-o="3">I guided about 20 first-year students through Introduction to Programming (Unix, C).</p>
+          <p class="out out--body" data-o="4">I helped them with exercises and debugging, and held office hours.</p>
+          <p class="out out--body" data-o="5">I worked with the instructor on teaching approaches, course material and labs.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ===== Experience ===== -->
-    <section class="section" id="experience">
-      <div class="section-header fade-in">
-        <div class="accent-line"></div>
-        <h2>Experience</h2>
-        <p>Where I've contributed and learned</p>
+  <!-- IV. Winning -->
+  <section class="chapter ground-paper winning" id="winning" data-chapter="IV" data-title="Winning" data-ground="paper">
+    <div class="winning__inner">
+      <h2 class="win" data-sc-reveal="left" data-sc-reveal-at="0.05 0.3">First place.</h2>
+      <div class="winning__text" data-sc-in data-sc-stagger="90">
+        <p class="meta">AI Challenge, Developer's Day by kariera.gr, November 2025</p>
+        <p>The task was sentiment analysis: take raw customer reviews, train a model to classify them, and deploy it inside the competition's time limit.</p>
+        <p>I designed and implemented the machine learning pipeline, a practical application of AI. It placed first, and was recognised by developers and industry professionals for its creativity, technical skill and presentation quality.</p>
       </div>
-      <div class="timeline stagger-children">
-        <div class="timeline-item fade-in">
-          <span class="timeline-date">Nov 2025</span>
-          <div class="timeline-title">ICTAI Volunteer</div>
-          <div class="timeline-org">
-            International Conference on Tools with Artificial Intelligence
-          </div>
-          <ul>
-            <li>
-              Supported conference operations across registration, session
-              moderation, and on-site logistics.
-            </li>
-          </ul>
-        </div>
-        <div class="timeline-item fade-in">
-          <span class="timeline-date">May 2025</span>
-          <div class="timeline-title">Makeathon Participant — StyleEra</div>
-          <div class="timeline-org">48-hour Innovation Makeathon</div>
-          <ul>
-            <li>
-              Built a working prototype with a team under extreme time
-              constraints.
-            </li>
-          </ul>
-          <a
-            href="https://github.com/KostasGeorgako/StyleEra"
-            target="_blank"
-            rel="noopener"
-            class="project-link"
-            style="margin-top: 0.5rem; display: inline-flex"
-            >View on GitHub
-            <i class="fas fa-arrow-right" style="margin-left: 6px"></i
-          ></a>
-        </div>
-        <div class="timeline-item fade-in">
-          <span class="timeline-date">Oct 2024 — Feb 2025</span>
-          <div class="timeline-title">
-            Undergraduate Teaching Assistant (Volunteer)
-          </div>
-          <div class="timeline-org">
-            Department of Informatics and Telecommunications, NKUA
-          </div>
-          <ul>
-            <li>
-              Guided ~20 first-year students through "Introduction to
-              Programming" (Unix, C).
-            </li>
-            <li>
-              Ran help sessions focused on assignments and exam preparation.
-            </li>
-            <li>
-              Collaborated with instructors to refine lab exercises and course
-              materials.
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ===== Awards ===== -->
-    <section class="section" id="awards">
-      <div class="section-header fade-in">
-        <div class="accent-line"></div>
-        <h2>Awards</h2>
+  <!-- V. Now: the present, and the longest stretch of type on the page after the peak. -->
+  <section class="chapter ground-tint now" id="now" data-chapter="V" data-title="Now" data-ground="tint">
+    <div class="now__inner">
+      <h2 class="now__name" data-sc-in>UniAI</h2>
+      <div class="now__dateline">
+        <span class="now__date">Oct 2026 to</span>
+        <span class="now__rule" data-sc-reveal="left" data-sc-reveal-at="0.12 0.5" aria-hidden="true"></span>
       </div>
-      <div class="award-showcase fade-in">
-        <div class="award-card">
-          <div class="award-icon">
-            <i class="fas fa-trophy"></i>
-          </div>
-          <div class="award-badge">1st Place</div>
-          <h3>AI Challenge Winner</h3>
-          <div class="award-event">Developer's Day — November 2025</div>
-          <p>
-            Won first place by building a sentiment analysis pipeline —
-            classifying customer reviews from raw data using machine learning,
-            trained and deployed within the competition's time constraints.
-          </p>
-        </div>
+      <div class="now__text" data-sc-in data-sc-stagger="100">
+        <p class="meta">Expertise Associate. Athens.</p>
+        <p class="now__lede">I work on applied AI projects with the UniAI Expertise department, and I create educational content for the community.</p>
+        <p>UniAI is a non-profit student initiative, and I joined it as a member of the Expertise team. It works more like a team of peers than an employer: research, programming and communication come together to produce original material and initiatives.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ===== Skills ===== -->
-    <section class="section" id="skills">
-      <div class="section-header fade-in">
-        <div class="accent-line"></div>
-        <h2>Technical Skills</h2>
-        <p>Technologies and tools I work with</p>
+  <!-- VI. Skills -->
+  <section class="chapter ground-paper tools" id="skills" data-chapter="VI" data-title="Skills" data-ground="paper">
+    <div class="tools__inner">
+      <h2 class="tools__head" data-sc-in>Skills</h2>
+      <div class="index" data-sc-stagger="90">
+        <section class="index__group" data-sc-in>
+          <h3>Programming languages</h3>
+          <p>C, C++, Python, SQL, Java.</p>
+        </section>
+        <section class="index__group" data-sc-in>
+          <h3>Core</h3>
+          <p>Software engineering, low-level C programming, algorithms and data structures, systems programming, cloud computing, relational database design and SQL query optimization.</p>
+        </section>
+        <section class="index__group" data-sc-in>
+          <h3>Artificial intelligence</h3>
+          <p>Machine learning fundamentals, neural networks, bot services, Cognitive Services, model training and evaluation with Python, scikit-learn and TensorFlow.</p>
+        </section>
+        <section class="index__group" data-sc-in>
+          <h3>Tools</h3>
+          <p>Git, Linux and Unix, Visual Studio Code, GCC, Azure (certified), Google Cloud.</p>
+        </section>
+        <section class="index__group" data-sc-in>
+          <h3>Human languages</h3>
+          <p>English (C2, Michigan Proficiency), German (B2, &Ouml;SD Zertifikat), Greek (native).</p>
+        </section>
       </div>
-      <div class="skills-grid stagger-children">
-        <div class="glass-card skill-group fade-in">
-          <h3><i class="fas fa-code"></i> Languages</h3>
-          <div class="skill-tags">
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'High-performance systems programming and memory management.',
-                )
-              "
-              >C / C++</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'AI/ML pipelines, FastAPI orchestration, automation, and data processing.',
-                )
-              "
-              >Python</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Object-oriented programming and cross-platform application design.',
-                )
-              "
-              >Java</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Relational database design, querying, and data management.',
-                )
-              "
-              >SQL</span
-            >
-          </div>
-          <p class="skill-info"></p>
-        </div>
-        <div class="glass-card skill-group fade-in">
-          <h3><i class="fas fa-brain"></i> AI &amp; Cloud</h3>
-          <div class="skill-tags">
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Developing predictive models and pattern recognition algorithms.',
-                )
-              "
-              >Machine Learning</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Designing advanced neural networks and deep learning architectures.',
-                )
-              "
-              >Deep Learning</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Cloud infrastructure, managed services, and scalable deployment.',
-                )
-              "
-              >Azure (Certified)</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Integrating intelligent APIs and pre-trained models into applications.',
-                )
-              "
-              >Cognitive Services</span
-            >
-          </div>
-          <p class="skill-info"></p>
-        </div>
-        <div class="glass-card skill-group fade-in">
-          <h3><i class="fas fa-wrench"></i> Tools</h3>
-          <div class="skill-tags">
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Version control, collaborative workflows, and branch management.',
-                )
-              "
-              >Git</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Shell scripting, system administration, and development environment.',
-                )
-              "
-              >Linux / Unix</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Automation, scripting, and command-line productivity.',
-                )
-              "
-              >Bash</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Containerization for reproducible development and deployment.',
-                )
-              "
-              >Docker</span
-            >
-            <span
-              class="skill-tag"
-              onclick="
-                updateSkill(
-                  this,
-                  'Rapid prototyping, data exploration, and experimental research.',
-                )
-              "
-              >Jupyter / Colab</span
-            >
-          </div>
-          <p class="skill-info"></p>
-        </div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ===== Contact ===== -->
-    <section class="section contact-section" id="contact">
-      <div class="section-header fade-in">
-        <div class="accent-line"></div>
-        <h2>Get in Touch</h2>
-      </div>
-      <div class="glass-card contact-card fade-in">
-        <p>
-          I'm always open to discussing new opportunities, collaborations, or
-          interesting problems worth solving. Feel free to reach out.
-        </p>
-        <div class="contact-links">
-          <a
-            href="https://linkedin.com/in/spyros-feradouros-9389732b0"
-            target="_blank"
-            rel="noopener"
-            class="btn-outline"
-            ><i class="fab fa-linkedin-in"></i> LinkedIn</a
-          >
-          <a href="mailto:spferad@gmail.com" class="btn-outline"
-            ><i class="fas fa-envelope"></i> spferad@gmail.com</a
-          >
-          <a
-            href="https://github.com/spferad"
-            target="_blank"
-            rel="noopener"
-            class="btn-outline"
-            ><i class="fab fa-github"></i> GitHub</a
-          >
-        </div>
-      </div>
-    </section>
+  <!-- VII. Colophon -->
+  <section class="chapter ground-tint colophon" id="colophon" data-chapter="VII" data-title="Colophon" data-ground="tint">
+    <div class="colophon__inner" data-sc-in data-sc-stagger="90">
+      <p class="colophon__lede">Write to <a href="mailto:spferad@gmail.com">spferad@gmail.com</a>.</p>
+      <p>Code is on <a href="https://github.com/spferad" target="_blank" rel="noopener">GitHub</a>, professional history on <a href="https://linkedin.com/in/spyros-feradouros-9389732b0" target="_blank" rel="noopener">LinkedIn</a>, and a summary in my <a href="Resume.pdf" target="_blank" rel="noopener">r&eacute;sum&eacute;</a>.</p>
+      <p class="colophon__fine">Set in Newsreader and IBM Plex Mono. Last revised October 2026. &copy; Spyridon Feradouros.</p>
+    </div>
+  </section>
 
-    <!-- ===== Footer ===== -->
-    <footer>
-      <div class="footer-links">
-        <a href="mailto:spferad@gmail.com" aria-label="Email"
-          ><i class="fas fa-envelope"></i
-        ></a>
-        <a
-          href="https://linkedin.com/in/spyros-feradouros-9389732b0"
-          target="_blank"
-          rel="noopener"
-          aria-label="LinkedIn"
-          ><i class="fab fa-linkedin-in"></i
-        ></a>
-        <a
-          href="https://github.com/spferad"
-          target="_blank"
-          rel="noopener"
-          aria-label="GitHub"
-          ><i class="fab fa-github"></i
-        ></a>
-      </div>
-      <p class="footer-copy">&copy; 2026 Spyridon Feradouros</p>
-    </footer>
+</main>
 
-    <!-- ===== Scripts ===== -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="main.js"></script>
-  </body>
+<script src="scrollcraft.js"></script>
+<script src="site.js"></script>
+</body>
 </html>

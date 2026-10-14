@@ -1,22 +1,10 @@
 # spferad.github.io
 
-My personal portfolio website — built with vanilla HTML, CSS & JavaScript.
+Personal site of Spyros Feradouros. Plain HTML, CSS and JavaScript, no build step.
 
-## ✨ Features
+- `index.html`, `site.css`, `site.js`: the page. `site.js` holds the folio and the
+  compile-on-scroll chapter (a sample C program whose output is the text).
+- `scrollcraft.css`, `scrollcraft.js`: the scroll engine (pinning and reveals).
+- Fonts: Newsreader and IBM Plex Mono, from Google Fonts.
 
-- WebGL aurora shader background powered by [Three.js](https://threejs.org/)
-- Glassmorphism cards with hover effects
-- Scroll-triggered fade-in animations
-- Sticky navigation with active section highlighting
-- Fully responsive with mobile hamburger menu
-
-## 🛠️ Tech
-
-- HTML5, CSS3, vanilla JavaScript
-- [Three.js](https://threejs.org/) (via CDN) for WebGL shader
-- [Inter](https://fonts.google.com/specimen/Inter) & [Space Grotesk](https://fonts.google.com/specimen/Space+Grotesk) fonts
-- [Font Awesome](https://fontawesome.com/) icons
-
-## 🚀 Live
-
-[spferad.github.io](https://spferad.github.io)
+Live at [spferad.github.io](https://spferad.github.io).
