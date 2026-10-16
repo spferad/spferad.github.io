@@ -287,10 +287,11 @@
     kobText.classList.toggle('on', p >= T_TEXT);
   }
 
+  var phone = matchMedia('(max-width: 760px), (pointer: coarse)');
   var moves = [
     { act: prologue, render: renderPrologue, settled: 1, canZoom: true },
     { act: teaching, render: renderTeaching, settled: 1, canZoom: true },
-    { act: kob, render: renderKoblenz, settled: 1, canZoom: true }
+    { act: kob, render: renderKoblenz, settled: 1, canZoom: true, lead: 0.16 }
   ];
 
   /* ------------------------------------------------------ fit check -- */
@@ -338,7 +339,14 @@
     if (window.ScrollCraft) ScrollCraft.mount(document.body);
 
     (function frame() {
-      moves.forEach(function (m) { if (!m.nopin) m.render(readProgress(m.act)); });
+      moves.forEach(function (m) {
+        if (m.nopin) return;
+        var p = readProgress(m.act);
+        // On phones the board holds still for a beat once it is locked, so nothing moves
+        // while the chapter is still sliding into view.
+        if (m.lead && phone.matches) p = Math.max(0, (p - m.lead) / (1 - m.lead));
+        m.render(p);
+      });
       updateFolio();
       if (!reduce) updateScrubs();
       requestAnimationFrame(frame);
